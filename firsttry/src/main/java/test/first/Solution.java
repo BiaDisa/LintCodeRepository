@@ -341,6 +341,203 @@ public static  int strStr(String source, String target) {
         }
         return maxCount;
     }
+    //------------------------------------
+    /**
+     * 请判断字符串 str 是不是一个合法的标识符。
+     * 合法的标识符由字母（A-Z，a-z）、数字（0-9）和下划线组成，并且首字符不能为数字。
+     */
+    public boolean isLegalIdentifier(String str) {
+        char[] strArray = str.toCharArray();
+        if(str.length() == 0||Character.isDigit(strArray[0])){
+            return false;
+        }
+        for(char c : strArray){
+            if(Character.isAlphabetic(c)||c == '_'||Character.isDigit(c))
+                continue;
+            return false;
+        }
+        return true;
+    }
 
+    //------------------------------
+    /**
+     * 给定一篇由大写字母、小写字母、逗号、句号组成的文章，求使文章不合法的字母数。
+     * 文章不合法有2种情况：
+     * 1.句子的第一个字母用了小写。
+     * 2.不是单词的首字母用了大写。
+     */
+    public int count(String s) {
+       char[] charArray = s.toCharArray();
+       int illegalCount = 0;
+       int phraseFlag = 0;
+       int wordFlag = 0;
+       for(char c: charArray){
+           if(c == ' '){
+               wordFlag = 0;
+               continue;
+           }
+               if(phraseFlag == 0){
+                   if(!Character.isUpperCase(c)){
+                       illegalCount ++;
+                   }
+                   wordFlag ++;
+                   phraseFlag = 1;
+                   continue;
+               }
+               if(c == '.'){
+                   phraseFlag = 0;
+                   continue;
+               }
+                   if(Character.isUpperCase(c) && wordFlag>=1){
+                       illegalCount++;
+                   }
+                   wordFlag ++;
+                   continue;
+               }
+
+       return illegalCount;
+    }
+
+
+//------------------------
+
+    /**
+     * 顺序表插入查找
+     * 二分查找
+     * @param A
+     * @param target
+     * @return
+     */
+    public int searchInsert(int[] A, int target) {
+        int left = 0;
+        int right = A.length-1;
+        int mid  = 0;
+        while(left <= right){
+            mid = (left+right)/2;
+            if(A[mid] == target){
+                return mid;
+            }
+            if(A[mid] < target){
+                right = mid;
+                continue;
+            }
+            //A[mid] > target
+            left = mid;
+            continue;
+        }
+        return left;
+    }
+
+    //--------------------------
+    /**
+     * 521. 去除重复元素
+     * 中文English
+     * 给一个整数数组，去除重复的元素。
+     *
+     * 你应该做这些事
+     *
+     * 1.在原数组上操作
+     * 2.将去除重复之后的元素放在数组的开头
+     * 3.返回去除重复元素之后的元素个数
+     *          WA
+     */
+    public int deduplication(int[] nums) {
+        if(nums.length == 0){
+            return 0;
+        }
+        HashMap<Integer,Integer> dic = new HashMap();
+        int lastUniq = nums.length-1;
+        boolean uniqFlag;
+        for(int i=0;i<=lastUniq;i++){
+            uniqFlag = false;
+            while(!uniqFlag && i<=lastUniq){
+                Integer index = dic.get(nums[i]);
+                if(index == null){
+                    dic.put(nums[i],i);
+                    uniqFlag = true;
+                    continue;
+                }
+                if(index != null){
+                    int temp = nums[i];
+                    nums[i] = nums[lastUniq];
+                    nums[lastUniq] = temp;
+                    lastUniq--;
+                }
+            }
+        }
+        return nums.length - lastUniq +1;
+    }
+    //-----------------
+    /**
+     846. 多关键字排序
+     *给定 n 个学生的学号(从 1 到 n 编号)以及他们的考试成绩，
+     * 表示为(学号，考试成绩)，请将这些学生按考试成绩降序排序，若考试成绩相同，则按学号升序排序。
+     * 样例1
+     *
+     * 输入: array = [[2,50],[1,50],[3,100]]
+     * 输出: [[3,100],[1,50],[2,50]]
+     * 样例2
+     *
+     * 输入: array = [[2,50],[1,50],[3,50]]
+     * 输出: [[1,50],[2,50],[3,50]]
+     * BubbleSort MineScore:60
+     */
+    public int[][] multiSort(int[][] array) {
+        for(int i=0;i<array.length;i++){
+            for(int j=i+1;j<array.length;j++){
+                int tempNO = array[i][0];
+                int tempScore = array[i][1];
+                if(array[i][1] == array[j][1]){
+                    if(array[i][0] >array[j][0]){
+                        exchange(array, i, j, tempNO, tempScore);
+                        continue;
+                    }
+                }
+                if(array[i][1] <array[j][1]){
+                    exchange(array, i, j, tempNO, tempScore);
+                }
+            }
+        }
+        return array;
+    }
+
+    private void exchange(int[][] array, int i, int j, int tempNO, int tempScore) {
+        array[i][0] = array[j][0];
+        array[i][1] = array[j][1];
+        array[j][0] = tempNO;
+        array[j][1] = tempScore;
+    }
+
+    //----------------------
+    /**
+     * 给定一系列的会议时间间隔，包括起始和结束时间[[s1,e1]，[s2,e2]，…(si < ei)，确定一个人是否可以参加所有会议。
+     * (0,8),(8,10)在8这这一时刻不冲突\
+     * low efficient
+     */
+    public class Interval {
+        int start, end;
+
+        Interval(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+    }
+        public boolean canAttendMeetings(List<Interval> intervals) {
+           List<Interval> canAttendInterval = new ArrayList<>();
+           for (Interval interval: intervals) {
+                for(Interval canAttend:canAttendInterval){
+                    if(interval.start>=canAttend.end || interval.end<=canAttend.start){
+                        continue;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                canAttendInterval.add(interval);
+            }
+           return true;
+        }
+
+        //-------------------------
 
 }

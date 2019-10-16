@@ -109,7 +109,8 @@ public class Main {
         String dateStr = sdf.format(localDate);
         System.out.println(dateStr+",date:"+localDate);*/
         Solution engine = new Solution();
-        System.out.println(engine.mostFrequentlyAppearingLetters("ABCabcA"));
+        int[][] a = {{2,50},{1,50},{3,100}};
+        System.out.println(engine.multiSort(a));
     }
 
 
