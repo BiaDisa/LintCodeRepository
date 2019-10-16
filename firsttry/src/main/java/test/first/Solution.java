@@ -1,9 +1,6 @@
 package test.first;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Solution {
     /**
@@ -514,7 +511,7 @@ public static  int strStr(String source, String target) {
      * (0,8),(8,10)在8这这一时刻不冲突\
      * low efficient
      */
-    public class Interval {
+    public static class Interval {
         int start, end;
 
         Interval(int start, int end) {
@@ -522,21 +519,19 @@ public static  int strStr(String source, String target) {
             this.end = end;
         }
     }
+    //solution:sort(base on start) first,then operate
         public boolean canAttendMeetings(List<Interval> intervals) {
-           List<Interval> canAttendInterval = new ArrayList<>();
-           for (Interval interval: intervals) {
-                for(Interval canAttend:canAttendInterval){
-                    if(interval.start>=canAttend.end || interval.end<=canAttend.start){
-                        continue;
-                    }
-                    else{
-                        return false;
-                    }
-                }
-                canAttendInterval.add(interval);
+            intervals.sort(Comparator.comparingInt((Interval a) -> a.start));
+            int end = 0;
+            for (Interval interval : intervals) {
+                if (interval.start < end && end != 0)
+                    return false;
+                end = interval.end;
             }
-           return true;
+        return true;
         }
+
+
 
         //-------------------------
 

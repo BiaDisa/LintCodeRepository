@@ -110,7 +110,18 @@ public class Main {
         System.out.println(dateStr+",date:"+localDate);*/
         Solution engine = new Solution();
         int[][] a = {{2,50},{1,50},{3,100}};
-        System.out.println(engine.multiSort(a));
+        List<Solution.Interval> intervals = new ArrayList<>();
+        intervals.add(new Solution.Interval(465,497));
+        intervals.add(new Solution.Interval(386,462));
+        intervals.add(new Solution.Interval(354,380));
+        intervals.add(new Solution.Interval(134,189));
+        intervals.add(new Solution.Interval(199,282));
+        intervals.add(new Solution.Interval(18,104));
+        intervals.add(new Solution.Interval(499,562));
+        intervals.add(new Solution.Interval(4,14));
+        intervals.add(new Solution.Interval(111,129));
+        intervals.add(new Solution.Interval(292,345));
+        System.out.println(engine.canAttendMeetings(intervals));
     }
 
 
