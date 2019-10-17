@@ -102,27 +102,30 @@ public class Main {
 
 
 
-/*        String utcTimeStr = "2019-09-17T16:13:28+08:00";
-        ZonedDateTime zonedDateTime = ZonedDateTime.parse(utcTimeStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        Date localDate = Date.from(zonedDateTime.toInstant());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//此处HH:mm:ss,mm与ss必须小写
-        String dateStr = sdf.format(localDate);
-        System.out.println(dateStr+",date:"+localDate);*/
-        Solution engine = new Solution();
-        int[][] a = {{2,50},{1,50},{3,100}};
-        List<Solution.Interval> intervals = new ArrayList<>();
-        intervals.add(new Solution.Interval(465,497));
-        intervals.add(new Solution.Interval(386,462));
-        intervals.add(new Solution.Interval(354,380));
-        intervals.add(new Solution.Interval(134,189));
-        intervals.add(new Solution.Interval(199,282));
-        intervals.add(new Solution.Interval(18,104));
-        intervals.add(new Solution.Interval(499,562));
-        intervals.add(new Solution.Interval(4,14));
-        intervals.add(new Solution.Interval(111,129));
-        intervals.add(new Solution.Interval(292,345));
-        System.out.println(engine.canAttendMeetings(intervals));
+        //popUpTest
+        popUpTest();
+
+
     }
+    public static void popUpTest(){
+        int i = 0;
+        List<List<Integer>> totalList = new ArrayList<>();
+        ArrayList<Integer> list = new ArrayList<>();
+        popUpTestRecursion(i,totalList,list);
+        System.out.println("102845y190tyh13908");
+    }
+
+    public static void popUpTestRecursion(Integer i,List<List<Integer>> totalList,ArrayList<Integer> list){
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        Collections.copy(list,arrayList);
+        while(i<=10){
+            arrayList.add(i);
+            i++;
+            popUpTestRecursion(i,totalList,list);
+        }
+        totalList.add(arrayList);
+    }
+
 
 
 

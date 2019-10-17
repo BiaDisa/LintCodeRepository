@@ -415,11 +415,11 @@ public static  int strStr(String source, String target) {
                 return mid;
             }
             if(A[mid] < target){
-                right = mid;
+               left = mid+1;
                 continue;
             }
             //A[mid] > target
-            left = mid;
+            right = mid -1;
             continue;
         }
         return left;
@@ -462,7 +462,7 @@ public static  int strStr(String source, String target) {
                 }
             }
         }
-        return nums.length - lastUniq +1;
+        return lastUniq+1;
     }
     //-----------------
     /**
@@ -534,5 +534,211 @@ public static  int strStr(String source, String target) {
 
 
         //-------------------------
+    /**
+     * 1663. 忧郁
+     * CAT 专属题目
+     * 中文English
+     * 有 n 道可选的题可以做，每一题都有特定的忧郁值，你会从中选择 k 题。如果这 k 题的忧郁值总和大于等于 m，那么你就会感到忧郁，反之，你就感受不到忧郁。
+     * 那么，请问，有没有可能你做完 k 题之后感受不到忧郁？
+     * 如果可能，返回 yes。
+     * 如果不可能，即你一定会感到忧郁，那么返回 no。
+     */
+    public String depress(int m, int k, int[] arr) {
+        int min[] = new int[k];
+        int minIndex = 0;
+        for(int i =0;i<arr.length;i++){
+            if(minIndex<k){
+                min[minIndex++] = arr[i];
+                continue;
+            }
+            if(minIndex == k){
+                int cmp = arr[i];
+                int exchange = 0;
+                for(int j=0;j<=k-1;j++) {
+                    if(cmp < min[j]){
+                        exchange = min[j];
+                        min[j] = cmp;
+                        cmp = exchange;
+                    }
+                }
+                continue;
+            }
+        }
+        int sum = 0;
+        for(int i=0;i<k;i++)  sum += min[i];
+        return sum>=m?"no":"yes";
+    }
+
+
+    //----------------
+    /**
+     * 1662. 中位数下标
+     * 给出一个含有 n 个互不相等整数的无序数组，找到其中中位数的下标。下标从 0 开始。
+     *
+     * 中位数是指这些数排序后最中间的数。
+     *
+     * 若 n 为偶数，则中位数是数组排序后的第 n/2 个数。
+     * WA solution：中位数查找\
+     * D - should learn later
+     */
+    public  int getAns(int [] a){
+        int[] b = deepCopy(a);
+        int length = a.length;
+        a = sort(a);
+        int target;
+        if(length %2 == 0){
+            target =  a[(length/2)-1];
+        }
+        else {
+            target =  a[(length/2)];
+        }
+        for(int m = 0;m<length;m++){
+            if(b[m] == target)
+                return m;
+        }
+        return 0;
+    }
+    public int[] deepCopy(int[] a){
+        int[] b = new int[a.length];
+        for(int i =0;i<a.length;i++){
+            b[i] = a[i];
+        }
+        return b;
+    }
+
+    public int[] sort(int[] a){
+        int ext = 0;
+        for(int i=0;i<a.length;i++){
+            for(int j =i+1;j<a.length;j++){
+                if(a[i] > a[j]){
+                    ext = a[i];
+                    a[i] = a[j];
+                    a[j] = ext;
+                }
+            }
+        }
+        return a;
+    }
+//-------------------------------------
+    /**
+     * 228. 链表的中点
+     * 找链表的中点。
+     */
+    public ListNode middleNode(ListNode head) {
+        HashMap<Integer,ListNode> dic = new HashMap();
+        int index = 0;
+        while(head!=null){
+            index++;
+            dic.put(index,head);
+            head = head.next;
+        }
+        int midIndex = index%2 ==0?index/2:((index/2)+1);
+        return dic.get(midIndex);
+    }
+
+    //-----------------
+    /**
+     * 219. 在排序链表中插入一个节点
+     * 在链表中插入一个节点。
+     */
+    public ListNode insertNode(ListNode head, int val) {
+        ListNode valNode = new ListNode(val);
+        ListNode startNode = head ;
+        ListNode lastStepNode = head;
+        if(head == null){
+            return valNode;
+        }
+        if(head.val>val){
+            valNode.next = head;
+            return valNode;
+        }
+        while(head.next!=null){
+            if(head.val <=val){
+                lastStepNode = head;
+                head=head.next;
+            }
+            if(head.val > val){
+                lastStepNode.next = valNode;
+                valNode.next = head;
+                break;
+            }
+        }
+        if(head.next == null && head.val<=val){
+            head.next = valNode;
+        }
+        return startNode;
+    }
+
+    //-------------------
+    /**
+     *822. 相反的顺序存储
+     * 给出一个链表，并将链表的值以倒序存储到数组中。
+     */
+    public List<Integer> reverseStore(ListNode head) {
+        if(head!=null)
+            return recursion(head,new ArrayList<Integer>());
+        return new ArrayList<Integer>();
+    }
+
+    public List<Integer> recursion(ListNode head,List<Integer> result) {
+        if(head.next!=null){
+            recursion(head.next,result);
+        }
+        result.add(head.val);
+        return result;
+    }
+    //----------------------
+    /**
+     *1664. 链表节点计数 II
+     * 计算一个链表中值为非负奇数的节点的个数。
+     */
+    public int countNodesII(ListNode head) {
+        int count = 0;
+        while(head!=null){
+            if(head.val>0 && head.val%2 !=0){
+                count ++;
+            }
+            head = head.next;
+        }
+        return count;
+    }
+
+    //----------------------
+    /**
+     *376. 二叉树的路径和
+     * 给定一个二叉树，找出所有路径中各节点相加总和等于给定 目标值 的路径。
+     *
+     * 一个有效的路径，指的是从根节点到叶节点的路径。
+     */
+
+    public List<List<Integer>> binaryTreePathSum(TreeNode root, int target) {
+        List<List<Integer>> result = new ArrayList();
+
+        return null;
+    }
+
+    //--------------
+    /**
+     * 67. 二叉树的中序遍历
+     * 给出一棵二叉树,返回其中序遍历
+     */
+
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList();
+        if(root != null){
+            inorderTraversalRecursion(root,result);
+        }
+        return result;
+    }
+
+    public void inorderTraversalRecursion(TreeNode root,List<Integer> result){
+        if(root!=null){
+            inorderTraversalRecursion(root.left,result);
+            result.add(root.val);
+            inorderTraversalRecursion(root.right,result);
+        }
+    }
+
+
 
 }
