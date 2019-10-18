@@ -676,13 +676,13 @@ public static  int strStr(String source, String target) {
      */
     public List<Integer> reverseStore(ListNode head) {
         if(head!=null)
-            return recursion(head,new ArrayList<Integer>());
+            return reverseStoreRecursion(head,new ArrayList<Integer>());
         return new ArrayList<Integer>();
     }
 
-    public List<Integer> recursion(ListNode head,List<Integer> result) {
+    public List<Integer> reverseStoreRecursion(ListNode head,List<Integer> result) {
         if(head.next!=null){
-            recursion(head.next,result);
+            reverseStoreRecursion(head.next,result);
         }
         result.add(head.val);
         return result;
@@ -707,14 +707,34 @@ public static  int strStr(String source, String target) {
     /**
      *376. 二叉树的路径和
      * 给定一个二叉树，找出所有路径中各节点相加总和等于给定 目标值 的路径。
-     *
      * 一个有效的路径，指的是从根节点到叶节点的路径。
+     * note:
+     *      1.路径值可能为负数
+     *      2.注意所求路径均需要从根节点到叶子节点
      */
 
-    public List<List<Integer>> binaryTreePathSum(TreeNode root, int target) {
+    public static List<List<Integer>> binaryTreePathSum(TreeNode root, int target) {
         List<List<Integer>> result = new ArrayList();
+        List<Integer> roadList = new ArrayList();
+        binaryTreePathSumRecursion(root,target,result,roadList);
+        return result;
+    }
 
-        return null;
+   public  static void  binaryTreePathSumRecursion(TreeNode root,int target,List<List<Integer>> result,List<Integer> roadList){
+
+       if( root == null){
+            return;
+       }
+        ArrayList<Integer> temp = new ArrayList(roadList);
+       temp.add(root.val);
+       int sum = 0;
+       for(Integer i : temp)
+           sum+=i;
+       if(sum == target && root.left == null && root.right == null){
+           result.add(new ArrayList<>(temp));
+       }
+       binaryTreePathSumRecursion(root.left,target,result,temp);
+       binaryTreePathSumRecursion(root.right,target,result,temp);
     }
 
     //--------------
@@ -739,6 +759,235 @@ public static  int strStr(String source, String target) {
         }
     }
 
+    //----------------
+    /**
+     * 66. 二叉树的前序遍历
+     * 给出一棵二叉树，返回其节点值的前序遍历。
+     */
 
+    public static List<Integer> preorderTraversal(TreeNode root) {
+        ArrayList<Integer> resultList = new ArrayList();
+        if(root == null){
+             return resultList;
+        }
+        Stack<TreeNode> stack = new Stack();
+        stack.push(root);
+        TreeNode nowNode;
+        while(!stack.isEmpty()){
+            nowNode = stack.pop();
+            resultList.add(nowNode.val);
+            if(nowNode.right!=null)
+                stack.push(nowNode.right);
+            if(nowNode.left != null)
+                stack.push(nowNode.left);
+
+        }
+        return resultList;
+    }
+    //--------------
+
+    /**
+     * 97. 二叉树的最大深度
+     * 给定一个二叉树，找出其最大深度。
+     * 二叉树的深度为根节点到最远叶子节点的距离。
+     */
+    public int maxDepth(TreeNode root) {
+        if(root == null)
+            return 0;
+        int heightL = 1;
+        int heightR = 1;
+        if(root!=null){
+            heightL+=maxDepth(root.left);
+            heightR+=maxDepth(root.right);
+        }
+        return heightR>heightL?heightR:heightL;
+
+    }
+
+    //-----------------------------
+
+    /**
+     480. 二叉树的所有路径
+     给一棵二叉树，找出从根节点到叶子节点的所有路径。
+     */
+    public static List<String> binaryTreePaths(TreeNode root) {
+        List<String> list = new ArrayList<>();
+        List<Integer> roadList = new ArrayList<>();
+        binaryTreePathsRecursion(root,list,roadList);
+        return list;
+    }
+     public static void binaryTreePathsRecursion(TreeNode root,List<String> list,List<Integer> roadList){
+        if(root == null)
+            return;
+        if(root.left == null && root.right == null){
+            StringBuilder sb = new StringBuilder();
+            roadList.add(root.val);
+            sb.append(roadList.get(0));
+            for(int i=1;i<roadList.size();i++){
+                sb.append("->").append(roadList.get(i));
+            }
+            list.add(sb.toString());
+            return;
+        }
+        List<Integer> temp ;
+        if(root.left != null){
+            roadList.add(root.val);
+            temp = new ArrayList<>(roadList);
+            binaryTreePathsRecursion(root.left,list,temp);
+        }
+         if(root.right != null){
+             if(root.left == null)
+                roadList.add(root.val);
+             temp = new ArrayList<>(roadList);
+             binaryTreePathsRecursion(root.right,list,temp);
+         }
+     }
+    //---------------------
+
+    /**
+     175. 翻转二叉树
+     翻转一棵二叉树。左右子树交换。
+     */
+    public void invertBinaryTree(TreeNode root) {
+        if(root!=null){
+            TreeNode node = root.left;
+            root.left = root.right;
+            root.right = node;
+            invertBinaryTree(root.left);
+            invertBinaryTree(root.right);
+        }
+    }
+    //---------------
+
+    /**
+     1751. 牛郎织女
+     又到了七夕节，牛郎织女相约一起去一个n*m大小的迷宫maze里玩耍。
+     然而没过多久，他们就倒霉地走散了。
+     现在给定由.,*,S,T组成的矩阵maze，其中.表示空地,*表示障碍物,S表示牛郎的位置 ,T表示织女的位置，
+     牛郎和织女都会试图寻找对方，不停地在矩阵中走动(他们可以每次向上下左右四个方向移动一格或者站着不动，
+     但是不能走到迷宫外面或者障碍物)，请问他们是否有可能重逢?如果有可能，返回True，否则返回False。
+     */
+    public boolean findHer(String[] maze) {
+        int a[][] = new int[2][2];
+        int index = -1;
+        for(int j=0;j<maze.length&&index<1;j++){
+            char[] c = maze[j].toCharArray();
+            for(int i=0;i<c.length&&index<1;i++){
+                if(c[i] == 'S' || c[i] == 'T'){
+                    int[] temp =  {i,j};
+                    a[++index] = temp;
+                }
+            }
+        }
+        return false;
+    }
+
+    //----------------
+
+    /**
+     1759. 二叉树的结点
+     给出一棵二叉树，返回其节点数。
+     */
+    public int getAns(TreeNode root) {
+        if(root == null)
+            return 0;
+        int sum = 0;
+        if(root!=null){
+            sum ++;
+            sum +=getAns(root.left);
+            sum +=getAns(root.right);
+        }
+        return sum;
+    }
+
+
+    //-----------------
+
+    /**
+     1666. 组合+判断素数
+     给定 n 个整数和一个整数 k, 你可以从中选择 k 个整数, 现在，要求你计算出k个数和为素数共有多少种方案。
+     n 不超过 10
+     k 不超过 n
+     */
+    class PrimeNode {
+        int val;
+        int index;
+        PrimeNode(int val, int index){
+            this.val = val;
+            this.index = index;
+        }
+    }
+
+    public int getWays(int[] a, int k) {
+        List<PrimeNode> elements = new ArrayList<>();
+        Stack<PrimeNode> stack = new Stack<>();
+        int primeCount = 0;
+        int lastIndex = 0;//a[]中最后一个数
+        for(int i=0;i<a.length-k;i++){
+            addOpt(i,a,stack,elements);
+            while(!stack.isEmpty()){
+                if(elements.size()<k){
+                    addOpt(++lastIndex,a,stack,elements);
+                }
+                if(elements.size() == k){
+                    if(isPrimeNum(sum(elements)))
+                        primeCount++;
+                    PrimeNode node = elements.get(k-1);
+                    int limit = 1;
+                    while(node.index == (a.length-limit) && !stack.isEmpty()){
+                       node = removeOpt(k-limit,stack,elements);
+                       lastIndex = node.index;
+                       limit ++;
+                    }
+                }
+            }
+        }
+        return primeCount;
+    }
+
+    public void addOpt(int index,int a[],Stack<PrimeNode> stack,List<PrimeNode> elements){
+        PrimeNode firstNode = new PrimeNode(a[index],index);
+        elements.add(firstNode);
+        stack.push(firstNode);
+    }
+
+    public PrimeNode removeOpt(int index,Stack<PrimeNode> stack,List<PrimeNode> elements){
+        elements.remove(index);
+        return stack.pop();
+    }
+
+
+    public boolean isPrimeNum(int i){
+        int half = i/2;
+        int divPart;
+        for(int j=2;j<=half;j++){
+            divPart = i/j;
+            if(j*divPart == i)
+                return false;
+        }
+        return true;
+    }
+
+    public int sum(List<PrimeNode> a){
+        int sum = 0;
+        for(int i=0;i<a.size();i++)
+            sum+=a.get(i).val;
+        return sum;
+    }
+
+    //---------------------
+
+    public static void main(String[] args){
+        TreeNode first = new TreeNode(1);
+        TreeNode second = new TreeNode(2);
+        TreeNode third = new TreeNode(3);
+        TreeNode fourth = new TreeNode(4);
+        TreeNode fifth = new TreeNode(2);
+        first.left = second;
+        first.right = fourth;
+        second.left = fifth;
+        second.right = third;
+        binaryTreePathSum(first,5);
+    }
 
 }
