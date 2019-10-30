@@ -23,6 +23,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
+        System.out.println(new Date().getTime());
+        String s = "https://mp.weixin.qq.com/bizmall/authinvoice?action=list&s_pappid=d3xxxxxxxxxxxxxGLSS0wrL14No8c1".split("&")[1];
+        System.out.println(s.split("=")[1]);
 /**
  * AsycTest
  */
