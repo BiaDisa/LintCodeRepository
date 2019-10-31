@@ -1132,10 +1132,48 @@ public static  int strStr(String source, String target) {
 
 
     //-------------------
+
+    /**
+     * 快速排序
+     */
+    public void quickSort(int[] nums,int start,int end){
+        if(start >=end)
+            return ;
+        convertMiddleToStart(nums,start,end);
+        int left = start;
+        int right = end;
+        int tmp = nums[left];
+            while(left<right){
+                while(nums[right]>=tmp && right>start)
+                    right--;
+                if(left<right)
+                    nums[left++] = nums[right];
+                while(nums[left]<=tmp && left<right)
+                    left++;
+                if(left<right)
+                    nums[right--] = nums[left];
+            }
+        nums[left] = tmp;//如果没有赋值，start位的数字将丢失
+        quickSort(nums,start,left-1);
+        quickSort(nums,left+1,end);
+
+    }
+    public void convertMiddleToStart(int[] nums, int start, int end){
+        int middle = (start+end)/2;
+        int l=nums[start],r=nums[end],m=nums[middle];
+        if((l<=m && m<=r) || (l>=m && m>=r)) swap(nums,start,middle);
+        else if((m>=r&&r>=l) || (l>=r&&r>=m) ) swap(nums,start,end);
+        //还有2种情况start处于中位，因此不需要互换
+    }
+    //-------------------------
+
     public static void main(String[] args){
-       int[] a= {-2,-3,-4,-5,-100,99,1,4,4,4,5,1,0,-1,2,3,4,5};
+       int[] a= {3,4,1,2,5,0,7546,7,8,9,900};
        Solution engine = new Solution();
-       engine.threeSum(a);
+       engine.quickSort(a,0,a.length-1);
+        for (int i : a) {
+            System.out.println(i);
+        }
     }
 
 }
