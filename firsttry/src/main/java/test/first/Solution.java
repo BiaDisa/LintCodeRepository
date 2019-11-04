@@ -1049,10 +1049,10 @@ public static  int strStr(String source, String target) {
             }
         }
     }
-    public void swap(int[] colors,int i,int j){
-        int temp = colors[i];
-        colors[i] = colors[j];
-        colors[j] = temp;
+    public void swap(int[] colors,long i,long j){
+        int temp = colors[Math.toIntExact(i)];
+        colors[Math.toIntExact(i)] = colors[Math.toIntExact(j)];
+        colors[Math.toIntExact(j)] = temp;
     }
 
 
@@ -1169,13 +1169,149 @@ public static  int strStr(String source, String target) {
     }
     //-------------------------
 
-    public static void main(String[] args){
-       int[] a= {3,4,1,2,5,0,7546,7,8,9,900};
-       Solution engine = new Solution();
-       engine.quickSort(a,0,a.length-1);
-        for (int i : a) {
-            System.out.println(i);
+    //---------------
+
+    /**
+     * 5. 第k大元素
+     * 在数组中找到第 k 大的元素。
+     * @param args
+     */
+
+
+    //-------------------------
+
+    /**
+     1670. 回合制游戏
+     QW 是一个回合制游戏的玩家，今天他决定去打怪。
+     QW 在一场战斗中会碰到 n 个怪物，每个怪物有攻击力 atk[i]，
+     每回合结束时如果第 i 个怪物还活着，就会对 QW 造成 atk[i] 的伤害。
+     QW 只能在每回合开始时击杀一个怪物，请帮 QW 出他打完所有怪物最少需要损失多少生命值。*/
+    public long getAnsAtk(int[] atk) {
+        long total = 0L;
+        Arrays.sort(atk);
+        return getSum(atk);
+    }
+    public long getSum(int[] nums){
+        long lastTotal = 0L;
+        long sum = 0L;
+        long times = 1L;
+        for(int i=nums.length-2;i>=0;i--) {
+            sum += nums[i]*times;
+            times++;
         }
+        return sum;
+    }
+
+
+
+    //--------------
+
+    /**
+     1667. 区间统计
+
+     给定一个01数组 arr 和 一个整数 k, 统计有多少区间符合如下条件:
+     区间的两个端点都为 0 (允许区间长度为1)
+     区间内 1 的个数不多于 k
+     */
+    public long intervalStatistics(int[] arr, int k) {
+        int[] zeroIndex = new int[tenPow(5)];
+        long scale = 0L;
+        int index = 0;
+        for(int i=0;i<arr.length;i++){
+            if(arr[i] == 0)
+                zeroIndex[index++] = i;
+        }
+        for(int i=0;i<zeroIndex.length;i++){
+            int firstHead = zeroIndex[i];
+            int zeroNums = 0;
+            if(i != 0 && zeroIndex[i] == 0)
+                break;
+            for(int j=i;j<zeroIndex.length;j++){
+                int secondHead = zeroIndex[j];
+                zeroNums++;
+                if(secondHead - firstHead+1-zeroNums > k || (j != 0 && zeroIndex[j] == 0)){
+                    break;
+                }
+                scale++;
+            }
+        }
+        return scale;
+    }
+
+    //------------
+
+    /**
+     1668. 区间最小覆盖
+     数轴上有 n 个区间. 现在需要在数轴上选取一些点, 使得任意一个区间内至少包含一个点.
+     返回最少选取的点的数目.     */
+    public int getAns(List<Interval> a) {
+        a.sort(Comparator.comparingInt((Interval b) -> b.start));
+        int result = 1;
+        int right = a.get(0).end;
+        for(int i = 1; i<=a.size()-1;++i){
+            if(a.get(i).start<=right){
+                right = Math.min(a.get(i).end,right);
+            }else{
+                result++;
+                right = a.get(i).end;
+            }
+        }
+        return result;
+    }
+    //-----------------------
+
+    /**
+     61. 搜索区间
+     中文English
+     给定一个包含 n 个整数的排序数组，找出给定目标值 target 的起始和结束位置。
+     */
+    public int[] searchRange(int[] A, int target) {
+        int[] failArr = {-1,-1};
+
+        if(A.length == 0 || A[0] >target || A[A.length-1]<target){
+            return failArr;
+        }
+        int originIndex = binarySearch(A,target,0,A.length-1);
+        int left = originIndex;
+        int right = left;
+        while(left>0 && A[left-1] == target)
+            left--;
+        while(right<A.length-1 && A[right+1] == target)
+            right++;
+        int[] resultArr = {left,right};
+        return resultArr;
+
+    }
+    public int binarySearch(int[] A,int target,int start,int end){
+        if( A[end] < target|| (start == end) && A[end] != target){
+            return -1;
+        }
+        int mid = (start+end)/2;
+        if(A[(start+end)/2]==target){
+            return mid;
+        }
+        else if(A[(start+end)/2]<target){
+            return binarySearch(A,target,mid+1,end);
+        }
+        else{
+            return binarySearch(A,target,start,mid-1);
+        }
+    }
+    //-----------------
+
+
+
+
+    public static void main(String[] args){
+      List<Interval> list = new ArrayList<>();
+      list.add(new Interval(1,5));
+      list.add(new Interval(4,8));
+      list.add(new Interval(10,12));
+      int[] atk = {1};
+      Solution engine = new Solution();
+      engine.searchRange(atk,1);
+      int[] testBS = {1,2,3,4,5,6,7,8,9};
+        System.out.println(engine.binarySearch(testBS,1,0,8));
     }
 
 }
