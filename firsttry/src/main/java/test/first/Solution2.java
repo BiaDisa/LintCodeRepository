@@ -1,5 +1,7 @@
 package test.first;
 
+import java.util.Arrays;
+
 import static java.util.Arrays.binarySearch;
 
 public class Solution2 {
@@ -43,10 +45,25 @@ public class Solution2 {
         return -1;
     }
 
+    //------------------------
+    /**
+     * 63. 搜索旋转排序数组 II
+     * 中文English
+     * 跟进“搜索旋转排序数组”，假如有重复元素又将如何？
+     *
+     * 是否会影响运行时间复杂度？
+     *
+     * 如何影响？
+     *
+     * 为何会影响？
+     *
+     * 写出一个函数判断给定的目标值是否出现在数组中。
+
+     */
     public boolean search2(int[] A, int target) {
         if(A == null || A.length == 0)
             return false;
-        int first = findFirstIndex(A,0,A.length-1);
+        int first = findFirstIndexDupilicated(A,0,A.length-1);
         if(target == A[first] || target == A[0] || target == A[A.length-1] || (first-1 >0 && target == A[first-1]))
             return true;
         if(target>A[first]&&target<A[A.length-1]){
@@ -88,6 +105,15 @@ public class Solution2 {
             return -1;
         }
     }
+
+    public int findFirstIndexDupilicated(int[] A,int start ,int end){
+        int i = 1,lastVal = A[0];
+        while(i<end && A[i] >=lastVal) {
+            lastVal = A[i];
+            i++;
+        }
+            return i;
+    }
     //------------------
     /**
      * 75.你给出一个整数数组(size为n)，其具有以下特点：
@@ -125,8 +151,8 @@ public class Solution2 {
      * testMain
      */
     public static void main(String[] args){
-        int[] A = {4,3};
+        int[] A = {10001,10001,10007,1,10,1001,2001};
         Solution2 engine = new Solution2();
-        System.out.println(engine.search(A,3));
+        System.out.println(engine.search2(A,10002));
     }
 }

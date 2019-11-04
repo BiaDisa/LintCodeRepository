@@ -1283,7 +1283,7 @@ public static  int strStr(String source, String target) {
 
     }
     public int binarySearch(int[] A,int target,int start,int end){
-        int result = 0;
+        int result = -1;
         while(start<=end){
             int mid = (start+end)/2;
             if(A[mid] == target){
