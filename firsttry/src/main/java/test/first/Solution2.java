@@ -1,4 +1,7 @@
 package test.first;
+
+import static java.util.Arrays.binarySearch;
+
 public class Solution2 {
 
     Solution engineFirst = new Solution();
@@ -20,19 +23,39 @@ public class Solution2 {
     public int search(int[] A, int target) {
         if(A.length == 0)
             return -1;
+        if(A.length == 1 && A[0] == target)
+            return 0;
         int rotateStart = findFirstIndex(A,0,A.length-1);
         if(target<A[rotateStart] ||
                 (rotateStart>1 && target > A[rotateStart-1])||
                 (target>A[A.length-1]&&target<A[0])){
             return -1;
         }
+        else if(target == A[rotateStart])
+            return rotateStart;
         else if(target > A[0]){
-            return engineFirst.binarySearch(A,target,0,rotateStart-1);
+            return engineFirst.binarySearch(A,target,0,rotateStart);
         }
         else if(target<A[A.length-1]){
-            return engineFirst.binarySearch(A,target,rotateStart+1,A.length-1);
+            return engineFirst.binarySearch(A,target,rotateStart,A.length-1);
         }
+
         return -1;
+    }
+
+    public boolean search2(int[] A, int target) {
+        if(A == null || A.length == 0)
+            return false;
+        int first = findFirstIndex(A,0,A.length-1);
+        if(target == A[first] || target == A[0] || target == A[A.length-1] || (first-1 >0 && target == A[first-1]))
+            return true;
+        if(target>A[first]&&target<A[A.length-1]){
+            return (engineFirst.binarySearch(A,target,first,A.length-1) != -1);
+        }else if(target>A[A.length-1] && target<A[first-1] && first>1){
+            return (engineFirst.binarySearch(A,target,0,first-1) != -1);
+        }else{
+            return false;
+        }
     }
 
     public int findFirstIndex(int[] A,int start ,int end){
@@ -49,7 +72,7 @@ public class Solution2 {
         int endVal = A[end];
         int mid = (start+end)/2;
         int midVal = A[mid];
-        if(midVal<startVal && midVal<endVal){
+        if(midVal<=startVal && midVal<=endVal){
             while(mid > 0 && A[mid]>A[mid-1]){
                 mid--;
             }
@@ -102,8 +125,8 @@ public class Solution2 {
      * testMain
      */
     public static void main(String[] args){
-        int[] A = {1,2,1,3,4,5,7,6};
+        int[] A = {4,3};
         Solution2 engine = new Solution2();
-        System.out.println(A[engine.findFirstIndex(A,0,A.length-1)]);
+        System.out.println(engine.search(A,3));
     }
 }
