@@ -22,6 +22,46 @@ public class Solution2 {
      * 输入: [4, 5, 1, 2, 3] and target=0,
      * 输出: -1.
      */
+    public int searchForSolution(int[] A, int target) {
+            if (A == null || A.length == 0) {
+                return -1;
+            }
+
+            int start = 0;
+            int end = A.length - 1;
+            int mid;
+
+            while (start + 1 < end) {
+                mid = start + (end - start) / 2;
+                if (A[mid] == target) {
+                    return mid;
+                }
+                if (A[start] < A[mid]) {
+                    // situation 1, red line
+                    if (A[start] <= target && target <= A[mid]) {
+                        end = mid;
+                    } else {
+                        start = mid;
+                    }
+                } else {
+                    // situation 2, green line
+                    if (A[mid] <= target && target <= A[end]) {
+                        start = mid;
+                    } else {
+                        end = mid;
+                    }
+                }
+            } // while
+
+            if (A[start] == target) {
+                return start;
+            }
+            if (A[end] == target) {
+                return end;
+            }
+            return -1;
+        }
+
     public int search(int[] A, int target) {
         if(A.length == 0)
             return -1;
@@ -35,10 +75,10 @@ public class Solution2 {
         }
         else if(target == A[rotateStart])
             return rotateStart;
-        else if(target > A[0]){
+        else if(target >= A[0]){
             return engineFirst.binarySearch(A,target,0,rotateStart);
         }
-        else if(target<A[A.length-1]){
+        else if(target<=A[A.length-1]){
             return engineFirst.binarySearch(A,target,rotateStart,A.length-1);
         }
 
@@ -124,35 +164,43 @@ public class Solution2 {
      * 数组保证至少存在一个峰
      * 如果数组存在多个峰，返回其中任意一个就行
      * 数组至少包含 3 个数
+     * (数学证明题：满足所给条件时，区间必有峰值。以该结论为前提，可以很简单地使用二分法进行处理。)
      */
     public int findPeak(int[] A) {
-       int left = A[0];
-       int right = A[A.length-1];
-        while(left< right){
-            int mid = (left+ right)/2;
-            if(mid == 1 || mid == A.length-2){
-                return 0;
-            }
-            if(A[mid]>A[mid+1]&&A[mid]>A[mid-1]){
+        if (A.length == 3)
+            return 1;
+        int left = 0, right = A.length - 1;
+        int mid;
+        while (left + 1 < right) {
+            mid = (left + right) / 2;
+            if (A[mid] > A[mid + 1] && A[mid] > A[mid - 1])
                 return mid;
-            }
-            if(A[mid]<A[mid+1]&&A[mid]>A[mid-1]){
-                left = mid+1;
-            }
-            else{//mid<mid-1>mid+1
-                right = mid+1;
+            if (A[mid] < A[mid - 1])
+                right = mid;
+            else {
+                left = mid;
             }
         }
-        return 0;
+        return A[left] > A[right] ? left : right;
     }
+    //-----------------
+    /**
+     * 159. 寻找旋转排序数组中的最小值
+     * 假设一个排好序的数组在其某一未知点发生了旋转（比如0 1 2 4 5 6 7 可能变成4 5 6 7 0 1 2）。你需要找到其中最小的元素。
+     * tocheck:findFirstIndex()
+     */
 
     //---------------
+    /**
+     *
+     */
+    //------------
     /**
      * testMain
      */
     public static void main(String[] args){
-        int[] A = {10001,10001,10007,1,10,1001,2001};
+        int[] A = {12,20,11};
         Solution2 engine = new Solution2();
-        System.out.println(engine.search2(A,10002));
+        System.out.println(engine.findPeak(A));
     }
 }
