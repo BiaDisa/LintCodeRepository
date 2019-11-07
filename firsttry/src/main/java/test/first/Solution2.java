@@ -1,6 +1,7 @@
 package test.first;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Stack;
 
 import static java.util.Arrays.binarySearch;
 
@@ -192,15 +193,271 @@ public class Solution2 {
 
     //---------------
     /**
-     *
+     *608. 两数和 II-输入已排序的数组
+     * 中文English
+     * 给定一个已经 按升序排列 的数组，找到两个数使他们加起来的和等于特定数。
+     * 函数应该返回这两个数的下标，index1必须小于index2。注意返回的值不是 0-based。
      */
+    public int[] twoSum(int[] nums, int target) {
+        int left = 0,right = nums.length-1;
+        int sum = 0;
+        int[] result = new int[2];
+        while(left  < right){
+            sum = nums[left]+nums[right];
+            if(sum == target){
+                result[0] = left + 1;
+                result[1] = right + 1;
+                break;
+            }else if(sum < target){
+                left++;
+                continue;
+            }else {//sum>tar
+                right--;
+                continue;
+            }
+        }
+        return result;
+    }
+    //---------------
+    /**
+     * 945. 任务计划
+     * 给定一个字符串，表示CPU需要执行的任务。 这个字符串由大写字母A到Z构成，
+     * 不同的字母代表不同的任务。完成任务不需要按照给定的顺序。
+     * 每项任务都可以在一个单位时间内被完成。 在每个单位时间，CPU可以选择完成一个任务或是不工作。
+     * 但是，题目会给定一个非负的冷却时间“n”，表示在执行两个“相同的任务”之间，必须至少有n个单位时间，此时CPU不能执行该任务，只能执行其他任务或者不工作。
+     *
+     * 您需要返回CPU完成所有给定任务所需的最少单位时间数。
+     * 输入: tasks = ['A','A','A','B','B','B'], n = 2
+     * 输出: 8
+     * 解释:
+     * A -> B -> idle -> A -> B -> idle -> A -> B.
+     */
+    public int leastInterval(char[] tasks, int n) {
+        int[] rawScale = new int[26];
+        int index = 0;
+        for(int i=0;i<tasks.length;i++) {
+            if(rawScale[tasks[i] - 'A'] == 0)
+                index++;
+            rawScale[tasks[i] - 'A']++;
+        }
+        int time = 0;
+        int[] scale = new int[index];
+        int scaleIndex = 0;
+        int risist = 0;
+        for(int i=0;i<26;i++) {
+            if (rawScale[i] != 0)
+                scale[scaleIndex++] = rawScale[i];
+        }
+        for(int i=0;i<index;){
+            if(scale[i] == 0) {
+                i++;
+                continue;
+            }
+            risist = 0;
+            scale[i]--;
+            time++;
+                for(int j=i+1;j<index && risist<n;j++){
+                    if(scale[j] == 0)
+                        continue;
+                    scale[j]--;
+                    risist++;
+                }
+                time+=n;
+        }
+        return (time+risist-n);
+    }
+    //-----------
+    /**
+     * 12. 带最小值操作的栈
+     * 中文English
+     * 实现一个栈, 支持以下操作:
+     *
+     * push(val) 将 val 压入栈
+     * pop() 将栈顶元素弹出, 并返回这个弹出的元素
+     * min() 返回栈中元素的最小值
+     * 要求 O(1) 开销.
+     * 注意事项
+     * 保证栈中没有数字时不会调用 min()
+     */
+
+    public static class MinStack {
+        Stack<Integer> originStack;
+        int min = 0;
+
+        public MinStack() {
+            originStack = new Stack();
+            min =-Integer.MAX_VALUE;
+        }
+
+        /*
+         * @param number: An integer
+         * @return: nothing
+         */
+        public void push(int number) {
+            if(originStack.isEmpty()){
+                min = number;
+            }
+            else if(number < min){
+                min = number;
+            }
+            originStack.push(number);
+            return;
+        }
+
+        /*
+         * @return: An integer
+         */
+        public int pop() {
+            int popElement =  originStack.pop();
+            if(min == popElement && !originStack.isEmpty()){
+                sortMin();
+            }
+            return popElement;
+        }
+
+        private void sortMin(){
+            int length = originStack.size();
+            int[] tmpArr = new int[length];
+            for(int i = length-1;i>=0;i--){
+                int popElement = originStack.pop();
+                tmpArr[i] = popElement;
+                if(i == length-1){
+                    min = popElement;
+                }else{
+                    if(min > popElement)
+                        min = popElement;
+                }
+            }
+            for(int j=0;j<tmpArr.length;j++){
+                originStack.push(tmpArr[j]);
+            }
+        }
+
+        /*
+         * @return: An integer
+         */
+        public int min() {
+            return min;
+        }
+    }
+    //-------------
+    /**
+     * 请设计一种方法将一个栈进行升序排列 （最大的数在最上面）。
+     *
+     * 你可以使用另外一个栈来辅助操作，但不可将这些数复制到另外一个数据结构中 （如，数组）。
+     */
+    public void stackSorting(Stack<Integer> stk) {
+        Stack<Integer> tempStack = new Stack();
+        Stack<Integer> swapStack = new Stack();
+        int scale = 0;
+        while(!stk.isEmpty()){
+            tempStack.push(stk.pop());
+            scale++;
+        }
+        while(stk.size()<scale){
+            int min = tempStack.pop();
+            while(!tempStack.isEmpty()){
+                int cmp = tempStack.pop();
+                if(min>cmp){
+                    swapStack.push(min);
+                    min = cmp;
+                }else{
+                    swapStack.push(cmp);
+                }
+            }
+            stk.push(min);
+            Stack p ;
+            p = tempStack;
+            tempStack = swapStack;
+            swapStack = p;
+        }
+    }
+    //------------
+    /**
+     * 384. 最长无重复字符的子串
+     * 给定一个字符串，请找出其中无重复字符的最长子字符串。
+     * o(n)
+     */
+    public int lengthOfLongestSubstring(String s) {
+        if(null == s || s.length() == 0 || s == "")
+            return 0;
+        char[] strArr = s.toCharArray();
+        HashMap<Character,Integer> workingMap = new HashMap<>();
+        int max = 1;
+        for(int i=0;i<s.length();i++){
+            if(workingMap.get(strArr[i])!=null){
+                max = max < workingMap.size()?workingMap.size():max;
+                workingMap.clear();
+            }
+            else{
+                workingMap.put(strArr[i],1);
+            }
+        }
+        return max;
+    }
+
+    //--------------
+    /**
+     * 40. 用栈实现队列
+     * 正如标题所述，你需要使用两个栈来实现队列的一些操作。
+     *
+     * 队列应支持push(element)，pop() 和 top()，其中pop是弹出队列中的第一个(最前面的)元素。
+     *
+     * pop和top方法都应该返回第一个元素的值。
+     */
+    public class MyQueue {
+        Stack<Integer> popStack, pushStack;
+        public MyQueue() {
+            // do intialization if necessary
+            popStack = new Stack<>();
+            pushStack = new Stack<>();
+        }
+
+        /*
+         * @param element: An integer
+         * @return: nothing
+         */
+        public void push(int element) {
+            while(!popStack.isEmpty())
+                pushStack.push(popStack.pop());
+            pushStack.push(element);
+        }
+
+        /*
+         * @return: An integer
+         */
+        public int pop() {
+           while(!pushStack.isEmpty())
+               popStack.push(pushStack.pop());
+           int returnVal = popStack.pop();
+           return returnVal;
+        }
+
+        /*
+         * @return: An integer
+         */
+        public int top() {
+            while(!pushStack.isEmpty())
+                popStack.push(pushStack.pop());
+            int returnVal = popStack.peek();
+            return returnVal;
+        }
+    }
+
     //------------
     /**
      * testMain
      */
     public static void main(String[] args){
-        int[] A = {12,20,11};
-        Solution2 engine = new Solution2();
-        System.out.println(engine.findPeak(A));
+        MinStack stk = new MinStack();
+        stk.push(3);
+        stk.push(2);
+        stk.push(1);
+        stk.min();
+        stk.pop();
+        stk.min();
+        stk.pop();
+        stk.min();
+
     }
 }
