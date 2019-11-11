@@ -624,14 +624,114 @@ public class Solution2 {
      */
 
     //------------
+    /**
+     * 69. 二叉树的层次遍历
+     * 给出一棵二叉树，返回其节点值的层次遍历（逐层从左往右访
+     * 挑战
+     * 挑战1：只使用一个队列去实现
+     * 挑战2：用BFS算法来做
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList();
+        Queue<TreeNode> wrkSpace = new LinkedList();
+        wrkSpace.offer(root);
+        int index = 1;
+        while(!wrkSpace.isEmpty()){
+            int lastIndex = index;
+            index = 0;
+            List<Integer> thisFloor = new ArrayList();
+            for(int i = 0;i<=lastIndex-1;i++){
+                TreeNode wrkNode = wrkSpace.poll();
+                if(wrkNode == null)
+                    continue;
+                thisFloor.add(wrkNode.val);
+                if(wrkNode.left != null){
+                    wrkSpace.offer(wrkNode.left);
+                    index++;
+                }
+                if(wrkNode.right != null){
+                    wrkSpace.offer(wrkNode.right);
+                    index++;
+                }
+            }
+            if(thisFloor == null || (thisFloor.size()) == 0)
+                continue;
+            result.add(thisFloor);
+        }
+        return result;
+    }
+
+    //------------------
+    /**
+     * 1691. 买卖股票的最佳时机 V
+     * 给出一个股票n天的价格，每天最多只能进行一次交易，可以选择买入一支股票或卖出一支股票或放弃交易，输出能够达到的最大利润值
+     */
+    //tle
+    public int getAns(int[] a) {
+        long start = System.currentTimeMillis();
+        int profit = 0;
+        HashMap<Integer,Integer> indexDic = new HashMap();
+        while(true){
+            int minIndex = getMinIndex(a,indexDic);
+            if(minIndex>a.length-1)
+                return profit;
+            int thisMin = a[minIndex];
+            int thisMax = getMax(a,indexDic,minIndex);
+            if(thisMax<=0) {
+                System.out.println("共耗时："+(System.currentTimeMillis()-start)+"ms");
+                return profit;
+            }
+            profit+=thisMax-thisMin;
+        }
+
+    }
+
+    public int getMinIndex(int[] a,HashMap<Integer,Integer> dic){
+        if(dic.size()>=a.length-1)
+            return Integer.MAX_VALUE;
+        int min=Integer.MAX_VALUE;
+        Integer index = 0;
+        for(int i=0;i<a.length;i++){
+            if(dic.get(i)!=null)
+                continue;
+            if(min>a[i]){
+                min = a[i];
+                index = i;
+            }
+        }
+        dic.put(index,1);
+        return index;
+    }
+
+    public int getMax(int[] a,HashMap<Integer,Integer> dic,int minIndex){
+        if(dic.size()>a.length-1)
+            return Integer.MIN_VALUE;
+        int max=Integer.MIN_VALUE;
+        Integer index = 0;
+        for(int i=minIndex+1;i<a.length;i++){
+            if(dic.get(i)!=null)
+                continue;
+
+            if(max<a[i]){
+                max = a[i];
+                index = i;
+
+            }
+        }
+        dic.put(index,1);
+        return max;
+    }
+
+
+    //-----------
 
     /**
      * testMain
      */
     public static void main(String[] args) {
         Solution2 engine = new Solution2();
-        int[][] map = {{1,1,9},{1,1,1},{1,1,9}};
-        System.out.println(engine.reachEndpoint(map));
+       int[] a = {16,40,33,43,87,26,22,100,53,38,72,40,82,19,25,52,3,83};
+        System.out.println(engine.getAns(a));
 
     }
 }
