@@ -505,10 +505,10 @@ public class Solution2 {
         }
     }
 
-
         /**
          * @param root the root of binary tree
          * @return a lists of linked list
+         * 可以用size来优化掉restoreList
          */
         public List<ListNode> binaryTreeToLists(TreeNode root) {
             Queue<TreeNode> queue = new LinkedList<>();
@@ -592,6 +592,25 @@ public class Solution2 {
      * 在每一个动作中，你可以向左或向右。在第n次移动中(从1开始)，你行走n步。
      * 返回到达目的地所需的最小步骤数。
      */
+
+    public int reachNumberInMath(int target) {
+        long t = Math.abs(target);
+        long n = (long) Math.ceil((-1.0 + Math.sqrt(1 + 8.0 * t)) / 2);
+
+        long sum = n * (n + 1) / 2;
+        long diff = sum - target;
+        if (diff == 0) {
+            return (int)n;
+        } else if (diff % 2 == 0) {
+            return (int)n;
+        } else if ((diff + n + 1) % 2 == 0) {
+            return (int)n + 1;
+        } else {
+            return (int)n + 2;
+        }
+    }
+
+
     class QueueFloor {
         int val;
         int floor;
@@ -602,26 +621,40 @@ public class Solution2 {
     }
 
     public int reachNumber(int target) {
-        int floors = 0;
-        int index = 0;
         Queue<QueueFloor> queue = new LinkedList<>();
         queue.offer(new QueueFloor(0,0));
         while (true) {
             QueueFloor lastResult = queue.poll();
             if(lastResult.val == target)
-                return lastResult.val;
+                return lastResult.floor;
             int lastR  = lastResult.val;
             int digit = lastResult.floor+1;
             queue.offer(new QueueFloor(lastR-digit,digit));
             queue.offer(new QueueFloor(lastR+digit,digit));
         }
     }
+
+
     //------------
 
     /**
      * 1691. 买卖股票的最佳时机 V
      * 给出一个股票n天的价格，每天最多只能进行一次交易，可以选择买入一支股票或卖出一支股票或放弃交易，输出能够达到的最大利润值
      */
+
+    public int getAns(int[] a) {
+        int size = a.length;
+        int total = 0;
+        Queue<Integer> queue = new PriorityQueue<>(size);
+        for(int i:a){
+            if(!queue.isEmpty()&&queue.peek()<i){
+                total += i - queue.poll();
+                queue.offer(i);//有可能不是最后结果，还需要储存下来计算差值
+            }
+            queue.offer(i);
+        }
+        return total;
+    }
 
     //------------
     /**
@@ -667,62 +700,43 @@ public class Solution2 {
      * 给出一个股票n天的价格，每天最多只能进行一次交易，可以选择买入一支股票或卖出一支股票或放弃交易，输出能够达到的最大利润值
      */
     //tle
-    public int getAns(int[] a) {
-        long start = System.currentTimeMillis();
-        int profit = 0;
-        HashMap<Integer,Integer> indexDic = new HashMap();
-        while(true){
-            int minIndex = getMinIndex(a,indexDic);
-            if(minIndex>a.length-1)
-                return profit;
-            int thisMin = a[minIndex];
-            int thisMax = getMax(a,indexDic,minIndex);
-            if(thisMax<=0) {
-                System.out.println("共耗时："+(System.currentTimeMillis()-start)+"ms");
-                return profit;
+        /**
+         * @param a: the array a
+         * @return: return the maximum profit
+         */
+        public int getAns2(int[] a) {
+            // write your code here
+            Queue<Integer> pq = new PriorityQueue<>(a.length);
+            int res = 0;
+            for (int price : a) {
+                if (pq.isEmpty() != true && pq.peek() < price) {
+                    res += price - pq.poll();
+                    pq.offer(price);
+                }
+                pq.offer(price);
             }
-            profit+=thisMax-thisMin;
+            return res;
         }
 
-    }
 
-    public int getMinIndex(int[] a,HashMap<Integer,Integer> dic){
-        if(dic.size()>=a.length-1)
-            return Integer.MAX_VALUE;
-        int min=Integer.MAX_VALUE;
-        Integer index = 0;
-        for(int i=0;i<a.length;i++){
-            if(dic.get(i)!=null)
-                continue;
-            if(min>a[i]){
-                min = a[i];
-                index = i;
+
+    //-----------
+    /**
+     *1651. 区间异或 I
+     *给定数组A（下标从0到n-1，n为数组长度），和一个查询列表。
+     * 每一项查询包括两个整数i和k。对于每次查询，计算Ai, A(i + 1), ..., A(i+k-1)的异或和。结果保存在列表中。
+     */
+    public List<Integer> intervalXOR(int[] A, List<Solution.Interval> query) {
+        List<Integer> result = new ArrayList<>();
+        for(Solution.Interval interval:query){
+            int tmp =A[interval.start];
+            for(int i =interval.start+1;i<=(interval.start+interval.end-1);i++){
+                tmp = tmp^A[i];
             }
+            result.add(tmp);
         }
-        dic.put(index,1);
-        return index;
+        return result;
     }
-
-    public int getMax(int[] a,HashMap<Integer,Integer> dic,int minIndex){
-        if(dic.size()>a.length-1)
-            return Integer.MIN_VALUE;
-        int max=Integer.MIN_VALUE;
-        Integer index = 0;
-        for(int i=minIndex+1;i<a.length;i++){
-            if(dic.get(i)!=null)
-                continue;
-
-            if(max<a[i]){
-                max = a[i];
-                index = i;
-
-            }
-        }
-        dic.put(index,1);
-        return max;
-    }
-
-
     //-----------
 
     /**
@@ -730,8 +744,11 @@ public class Solution2 {
      */
     public static void main(String[] args) {
         Solution2 engine = new Solution2();
-       int[] a = {16,40,33,43,87,26,22,100,53,38,72,40,82,19,25,52,3,83};
-        System.out.println(engine.getAns(a));
+       int[] a = {1,2,3,4};
+        List<Solution.Interval> query = new ArrayList();
+        query.add(new Solution.Interval(0,2));
+        query.add(new Solution.Interval(2,2));
+        System.out.println(engine.intervalXOR(a,query));
 
     }
 }
