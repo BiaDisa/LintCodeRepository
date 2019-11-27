@@ -737,18 +737,225 @@ public class Solution2 {
         }
         return result;
     }
-    //-----------
 
+    //-----------
+    /**
+     * 16. 带重复元素的排列
+     * 给出一个具有重复数字的列表，找出列表所有不同的排列。
+     */
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> result = new ArrayList();
+        return null;
+    }
+
+    //-----------
+    /**
+     * 中文English
+     * 给定一个数组 num 和一个整数 target. 找到 num 中所有的数字之和为 target 的组合.
+     *
+     * 样例
+     * 样例 1:
+     *
+     * 输入: num = [7,1,2,5,1,6,10], target = 8
+     * 输出: [[1,1,6],[1,2,5],[1,7],[2,6]]
+     * 注意事项
+     * 在同一个组合中, num 中的每一个数字仅能被使用一次.
+     * 所有数值 (包括 target ) 都是正整数.
+     * 返回的每一个组合内的数字必须是非降序的.
+     * 返回的所有组合之间可以是任意顺序.
+     * 解集不能包含重复的组合.
+     */
+    public List<List<Integer>> combinationSum2(int[] num, int target) {
+        Arrays.sort(num);
+        List<List<Integer>> result = new ArrayList<>();
+        if(null == num || num.length == 0)
+            return result;
+        for(int i=0;i<=num.length-1;i++){
+
+            List<Integer> thisCursor = new ArrayList<>();
+            int root = num[i];
+            thisCursor.add(root);
+
+            int sum = root;
+            if(root>target)
+                continue;
+            if(root == target){
+                result.add(thisCursor);
+                continue;
+            }
+            for(int j=i+1;j<=num.length-1;j++){
+                sum += num[j];
+                if(sum == target){
+                    result.add(thisCursor);
+                }
+
+            }
+        }
+        return null;
+    }
+
+    //---------
+
+    /**
+     * 570. 寻找丢失的数 II
+     * 中文English
+     * 给一个由 1 - n 的整数随机组成的一个字符串序列，其中丢失了一个整数，请找到它。
+     *
+     * 样例
+     * 样例1
+     *
+     * 输入: n = 20 和 str = 19201234567891011121314151618
+     * 输出: 17
+     * 1stTry:ErrorCase:11 "111098765432"
+     * @param n
+     * @param str
+     * @return
+     */
+    public int findMissing2(int n, String str) {
+           int zeroVal = '0';
+           int[] appearNum = new int[n];
+           int formatStep = 1;
+           char[] charArr = str.toCharArray();
+           if(n/10 >0){
+               formatStep = 2;
+           }
+           for(int j = 0; j<=charArr.length-1;j++){
+               int fstPos;
+               fstPos = charArr[j]-zeroVal;
+               if(formatStep>=1 && j<charArr.length-1){
+                   int secPos;
+                   secPos = charArr[j+1] - zeroVal;
+                   int digit =  (fstPos*10+secPos);
+                   if(digit>n || (appearNum[digit-1] > 0 &&(appearNum[fstPos-1] == 0 || appearNum[secPos-1] == 0 ))){
+                       appearNum[secPos-1]++;
+                       appearNum[fstPos-1]++;
+                       j++;
+                       continue;
+                   }else{
+                       appearNum[digit-1]++;
+                       j++;
+                       continue;
+                   }
+               }
+               appearNum[fstPos]++;
+           }
+           for(int i=0;i<=n-1;i++){
+               if(appearNum[i] == 0)
+                   return i+1;
+           }
+           return 0;
+    }
+
+    //-------------
+    /**
+     * 164. 不同的二叉查找树 II
+     * 中文English
+     * 给出n，生成所有由1...n为节点组成的不同的二叉查找树
+     */
+    public List<TreeNode> generateTrees(int n) {
+        // write your code here
+        return null;
+    }
+
+    //----------------
+    /**
+     * 33. N皇后问题
+     *中文English
+     * n皇后问题是将n个皇后放置在n*n的棋盘上，皇后彼此之间不能相互攻击(任意两个皇后不能位于同一行，同一列，同一斜线)。
+     *
+     * 给定一个整数n，返回所有不同的n皇后问题的解决方案。
+     *
+     * 每个解决方案包含一个明确的n皇后放置布局，其中“Q”和“.”分别表示一个女王和一个空位置。
+     */
+
+    public List<List<String>> solveNQueens(int n) {
+        // write your code here
+        return null;
+    }
+
+    public boolean isValidPos(int[][] arr, int scale, int lineNo, int columnNo){
+        for(int i : arr[lineNo]){
+            if(i == 1)
+                return false;
+        }
+        for(int j = 0 ;j <=scale;j++){
+            if(arr[j][columnNo] == 1)
+                return false;
+        }
+        int lineProcess = lineNo-1;
+        int columnProcess = columnNo-1;
+        boolean goUp = true;
+        while(goUp){
+            if(goUp&&isValidNum(lineNo,scale) && isValidNum(columnNo,scale)){
+                if(arr[lineProcess][columnProcess] == 1)
+                    return false;
+                lineProcess--;
+                columnProcess--;
+            }else{
+                lineProcess = lineNo+1;
+                columnProcess = columnNo+1;
+                goUp = false;
+            }
+        }
+        while(!goUp){
+            if(goUp&&isValidNum(lineNo,scale) && isValidNum(columnNo,scale)){
+                if(arr[lineProcess][columnProcess] == 1)
+                    return false;
+                lineProcess++;
+                columnProcess++;
+            }else{
+                goUp = false;
+            }
+        }
+        arr[lineNo][columnNo] = 1;
+        return true;
+    }
+
+    public boolean isValidNum(int No,int scale){
+        return  No < scale && No >= 0;
+    }
+    //-----------
+    /**
+     * 614. 二叉树的最长连续子序列 II
+     * 中文English
+     * 给定一棵二叉树，找到最长连续序列(单调且相邻节点值相差为1)路径的长度(节点数)。
+     * 路径起点跟终点可以为二叉树的任意节点。
+     */
+    public int longestConsecutive2(TreeNode root) {
+        int result = 1;
+        Stack<TreeNode> nextProcessStk = new Stack<>();
+        nextProcessStk.push(root);
+
+        while(true){
+            return 0;
+        }
+    }
+
+    public int longestConsecutive2Recursion(TreeNode root){
+        int result = 1;
+        switch(identify(root,root.left)){
+            case -1:
+
+        }
+        return 0;
+    }
+    public int identify(TreeNode pre,TreeNode atr){
+        if(pre!=null&&atr!=null){
+            if(pre.val+1 == atr.val)
+                return -1;
+            if(pre.val-1 == atr.val)
+                return 1;
+        }
+        return 0;
+    }
+
+    //----------
     /**
      * testMain
      */
     public static void main(String[] args) {
         Solution2 engine = new Solution2();
-       int[] a = {1,2,3,4};
-        List<Solution.Interval> query = new ArrayList();
-        query.add(new Solution.Interval(0,2));
-        query.add(new Solution.Interval(2,2));
-        System.out.println(engine.intervalXOR(a,query));
+        System.out.println(engine.findMissing2(11,"111098765432"));
 
     }
 }

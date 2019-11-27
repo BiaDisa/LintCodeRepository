@@ -21,7 +21,7 @@ import static java.time.ZoneOffset.UTC;
 public class Main {
 
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 
         System.out.println(new Date().getTime());
         String s = "https://mp.weixin.qq.com/bizmall/authinvoice?action=list&s_pappid=d3xxxxxxxxxxxxxGLSS0wrL14No8c1".split("&")[1];
@@ -105,8 +105,21 @@ public class Main {
 
 
 
-        //popUpTest
-        popUpTest();
+
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:SS");
+
+        String dateStr = sdf.format(d);
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d2 ;
+        d2 = sdf.parse("2020-03-30 23:59:59",new ParsePosition(0));
+        Date d3 = sdf.parse("2020-05-30 19:00:00",new ParsePosition(0));
+        System.out.println(dateStr);
+        System.out.println(d2);
+        System.out.println(sdf.format(d2));
+        System.out.println(d2.compareTo(d));
+        System.out.println(d2.compareTo(d3));
+
 
 
     }

@@ -1,0 +1,104 @@
+<html>
+<head>
+  <title>乱七八糟的java</title>
+  <basefont face="微软雅黑" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="YXBJ Windows/600753 (zh-CN, DDL); Windows/10.0.0 (Win64);"/>
+  <meta name="content-class" content="yinxiang.markdown"/>
+  <style>
+    body, td {
+      font-family: 微软雅黑;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="3027"/>
+<h1>乱七八糟的java</h1>
+<div>
+<table bgcolor="#D4DDE5" border="0">
+<tr><td><b>创建时间：</b></td><td><i>2019/8/15 15:03</i></td></tr>
+<tr><td><b>更新时间：</b></td><td><i>2019/8/27 14:11</i></td></tr>
+</table>
+</div>
+<br/>
+
+<div><span><div style="font-size: 14px; margin: 0; padding: 0; width: 100%;"><h1 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 41px; border-bottom: 3px double #999; color: #000; margin-top: 14px;">乱七八糟的java</h1>
+<h1 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 41px; border-bottom: 3px double #999; color: #000;">运算符</h1>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">1.num&gt;&gt;:numX2<br/>
+num&lt;&lt;:num/2</p>
+<h1 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 41px; border-bottom: 3px double #999; color: #000;">jdk</h1>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">Object</h2>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">1.类在java.lang包中，从JDK1.0便已存在，是所有类继承的源头。</p>
+<h3 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 27px; color: #333;">getClass()</h3>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">1.返回值为此时执行时的类。返回的类对象是被方法锁定的代表类。<br/>
+2.实际值为</p>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">the erasure of the static type of the* expression on which {@code getClass} is called.</p>
+</blockquote>
+<h3 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 27px; color: #333;">hashCode()</h3>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">返回一个对象的哈希值。这个方法用于帮助哈希表更有效地执行。</p>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">1.每当同个对象在Java应用中被调用超过一次且在equals的比较中没有任何信息被修改，该方法就总会返回相同的整型值。当应用从一个执行跳转到另一个执行时，这个整数不需要保持相同。<br/>
+2.如果两个对象在equals方法中相同，那么调用本方法时两个对象总会产生相同的整数结果。<br/>
+<strong style="line-height: 160%; box-sizing: content-box; font-weight: 700;">如果两个对象在equals比较中是不同的，那么这个方法在两个对象上产生不同的整型值不是必须的。但必须注意，不同的对象产生不同的整型值能够提升hash表的性能。</strong><br/>
+<em style="line-height: 160%; box-sizing: content-box; font-style: italic;">This is typically implemented by converting the internal address of the object into an integer<br/>
+这个方法的默认实现是将对象的内部地址转化成整数</em></p>
+</blockquote>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">Collections</h2>
+<h3 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 27px; color: #333;">Algorithms Params</h3>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">BINARYSEARCH_THRESHOLD   = 5000<br/>
+REVERSE_THRESHOLD        =   18<br/>
+SHUFFLE_THRESHOLD        =    5<br/>
+FILL_THRESHOLD           =   25<br/>
+ROTATE_THRESHOLD         =  100<br/>
+COPY_THRESHOLD           =   10<br/>
+REPLACEALL_THRESHOLD     =   11<br/>
+INDEXOFSUBLIST_THRESHOLD =   35;</p>
+</blockquote>
+<h3 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 27px; color: #333;">Collections.sort(List)</h3>
+<ol style="line-height: 160%; box-sizing: content-box; display: block; padding-left: 30px; margin: 6px 0 10px; color: #333; list-style-type: decimal;">
+<li style="line-height: 160%; box-sizing: content-box;">根据特定的list中对象的comparable接口，对list进行排序。list中的对象都需要实现comparable这个接口，而且列表中的元素都需要可以互相比较（code e1.compareTo(e2)），不能因为compareTo方法，抛出类型转换异常（C lassCastException）。<br/>
+2.这个方法应当保证稳定性：相等的元素不能在排序中交换位置。</li>
+<li style="line-height: 160%; box-sizing: content-box;">这个数组一定要是可修改的，但不应该是可变的。<br/>
+4.这个方法与list.sort这个使用特定数组且不使用的比较器方法不同。</li>
+</ol>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">抛出异常：<br/>
+1.类型转换异常：如果list中包含无法比较对象时抛出。<br/>
+2.不支持的操作异常：<strong style="line-height: 160%; box-sizing: content-box; font-weight: 700;">如果list的list迭代器（iterator）不支持set方法</strong>时抛出。<br/>
+3.非法参数异常：（可选）如果实现类检测到list元素的自然排序违反了comparable的规定则会抛出。</p>
+</blockquote>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">比较规定：
+1） x，y 的比较结果和 y，x 的比较结果相反。(自反性)
+2） x&gt;y，y&gt;z，则 x&gt;z。（传递性）
+3） x=y，则 x，z 比较结果和 y，z 比较结果相同。（同一性）*
+</code></pre>
+<h3 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 27px; color: #333;">Collections.sort(List,(optionoal)Comparator)</h3>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">详细同上，但是是使用输入的比较器对指定的list进行比较</p>
+<h3 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 27px; color: #333;">binarySearch(list,key)</h3>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">1.使用二分查找，在list中查找条件对应的对象。<br/>
+2.<strong style="line-height: 160%; box-sizing: content-box; font-weight: 700;">list必须是按照比较器，升序排序好的。如果没有排序好，结果无法预知。如果根据key进行比较有多个符合结果的值，那么无法得知哪个结果会被返回。</strong><br/>
+3.该方法在实现了随机获取（random access，IMPL:RandomAccess）的list上运行时间为log（n）。如果没有实现该接口且list较大，该方法会使用基于迭代器的二分搜索，其实现为o(n)的遍历+o(logn)的元素比较。<br/>
+4.返回值为查找key的索引（index）值，前提是key在list中，否则会返回一个key可插入位置（insertion point），**即按照升序排序，key该插入的位置，这个位置原来的值要么是第一个比key大的值，要么是数组的最后一位的后一个。**注意，当且仅当key出现在列表中后，返回值才保证&gt;=0<br/>
+5.异常：</p>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">类型转换异常（ClassCastException）：当数组中的元素无法相互比较，或者key和list中的元素无法全部相互比较（比较到了才会抛出）。</p>
+</blockquote>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">6.相关param：BINARYSEARCH_THRESHOLD   = 5000。如果大于该值且list未实现RandomAccess，则使用基于迭代器的二分查找（iteratorBinarySearch）;其余情况则使用索引二分查找（indexedBinarySearch）。</p>
+<ol start="7" style="line-height: 160%; box-sizing: content-box; display: block; padding-left: 30px; margin: 6px 0 10px; color: #333; list-style-type: decimal;">
+<li style="line-height: 160%; box-sizing: content-box;">
+<h4 style="line-height: 160%; box-sizing: content-box; font-size: 20px; color: #333;">索引二分查找indexedBinarySearch（） ：直接使用list.get(),实现二分查找中关键节点的元素。</h4>
+</li>
+<li style="line-height: 160%; box-sizing: content-box;">
+<h4 style="line-height: 160%; box-sizing: content-box; font-size: 20px; color: #333;"></h4>
+</li>
+</ol>
+<h1 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 41px; border-bottom: 3px double #999; color: #000;">线程</h1>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">static遇到多线程</h2>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">1.类中的static方法是没有线程安全顾虑的，在每次调用时都会新建一份副本来调用，而非对指定的内存地址进行调用。</p>
+</blockquote>
+</div><center style="display:none !important;visibility:collapse !important;height:0 !important;white-space:nowrap;width:100%;overflow:hidden">%23%20%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F%E7%9A%84java%0A%0A%23%20%E8%BF%90%E7%AE%97%E7%AC%A6%0A1.num%3E%3E%3AnumX2%0A%20%20num%3C%3C%3Anum%2F2%0A%20%20%0A%20%23%20jdk%0A%20%23%23%20Object%0A%201.%E7%B1%BB%E5%9C%A8java.lang%E5%8C%85%E4%B8%AD%EF%BC%8C%E4%BB%8EJDK1.0%E4%BE%BF%E5%B7%B2%E5%AD%98%E5%9C%A8%EF%BC%8C%E6%98%AF%E6%89%80%E6%9C%89%E7%B1%BB%E7%BB%A7%E6%89%BF%E7%9A%84%E6%BA%90%E5%A4%B4%E3%80%82%0A%20%0A%20%23%23%23%20getClass()%0A%201.%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%BA%E6%AD%A4%E6%97%B6%E6%89%A7%E8%A1%8C%E6%97%B6%E7%9A%84%E7%B1%BB%E3%80%82%E8%BF%94%E5%9B%9E%E7%9A%84%E7%B1%BB%E5%AF%B9%E8%B1%A1%E6%98%AF%E8%A2%AB%E6%96%B9%E6%B3%95%E9%94%81%E5%AE%9A%E7%9A%84%E4%BB%A3%E8%A1%A8%E7%B1%BB%E3%80%82%0A%202.%E5%AE%9E%E9%99%85%E5%80%BC%E4%B8%BA%0A%20%20%3E%20the%20erasure%20of%20the%20static%20type%20of%20the*%20expression%20on%20which%20%7B%40code%20getClass%7D%20is%20called.%0A%0A%23%23%23%20hashCode()%0A%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%93%88%E5%B8%8C%E5%80%BC%E3%80%82%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%94%A8%E4%BA%8E%E5%B8%AE%E5%8A%A9%E5%93%88%E5%B8%8C%E8%A1%A8%E6%9B%B4%E6%9C%89%E6%95%88%E5%9C%B0%E6%89%A7%E8%A1%8C%E3%80%82%0A%0A%0A%3E1.%E6%AF%8F%E5%BD%93%E5%90%8C%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%9C%A8Java%E5%BA%94%E7%94%A8%E4%B8%AD%E8%A2%AB%E8%B0%83%E7%94%A8%E8%B6%85%E8%BF%87%E4%B8%80%E6%AC%A1%E4%B8%94%E5%9C%A8equals%E7%9A%84%E6%AF%94%E8%BE%83%E4%B8%AD%E6%B2%A1%E6%9C%89%E4%BB%BB%E4%BD%95%E4%BF%A1%E6%81%AF%E8%A2%AB%E4%BF%AE%E6%94%B9%EF%BC%8C%E8%AF%A5%E6%96%B9%E6%B3%95%E5%B0%B1%E6%80%BB%E4%BC%9A%E8%BF%94%E5%9B%9E%E7%9B%B8%E5%90%8C%E7%9A%84%E6%95%B4%E5%9E%8B%E5%80%BC%E3%80%82%E5%BD%93%E5%BA%94%E7%94%A8%E4%BB%8E%E4%B8%80%E4%B8%AA%E6%89%A7%E8%A1%8C%E8%B7%B3%E8%BD%AC%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%89%A7%E8%A1%8C%E6%97%B6%EF%BC%8C%E8%BF%99%E4%B8%AA%E6%95%B4%E6%95%B0%E4%B8%8D%E9%9C%80%E8%A6%81%E4%BF%9D%E6%8C%81%E7%9B%B8%E5%90%8C%E3%80%82%0A%3E2.%E5%A6%82%E6%9E%9C%E4%B8%A4%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%9C%A8equals%E6%96%B9%E6%B3%95%E4%B8%AD%E7%9B%B8%E5%90%8C%EF%BC%8C%E9%82%A3%E4%B9%88%E8%B0%83%E7%94%A8%E6%9C%AC%E6%96%B9%E6%B3%95%E6%97%B6%E4%B8%A4%E4%B8%AA%E5%AF%B9%E8%B1%A1%E6%80%BB%E4%BC%9A%E4%BA%A7%E7%94%9F%E7%9B%B8%E5%90%8C%E7%9A%84%E6%95%B4%E6%95%B0%E7%BB%93%E6%9E%9C%E3%80%82%0A%3E**%E5%A6%82%E6%9E%9C%E4%B8%A4%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%9C%A8equals%E6%AF%94%E8%BE%83%E4%B8%AD%E6%98%AF%E4%B8%8D%E5%90%8C%E7%9A%84%EF%BC%8C%E9%82%A3%E4%B9%88%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E5%9C%A8%E4%B8%A4%E4%B8%AA%E5%AF%B9%E8%B1%A1%E4%B8%8A%E4%BA%A7%E7%94%9F%E4%B8%8D%E5%90%8C%E7%9A%84%E6%95%B4%E5%9E%8B%E5%80%BC%E4%B8%8D%E6%98%AF%E5%BF%85%E9%A1%BB%E7%9A%84%E3%80%82%E4%BD%86%E5%BF%85%E9%A1%BB%E6%B3%A8%E6%84%8F%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%9A%84%E5%AF%B9%E8%B1%A1%E4%BA%A7%E7%94%9F%E4%B8%8D%E5%90%8C%E7%9A%84%E6%95%B4%E5%9E%8B%E5%80%BC%E8%83%BD%E5%A4%9F%E6%8F%90%E5%8D%87hash%E8%A1%A8%E7%9A%84%E6%80%A7%E8%83%BD%E3%80%82**%0A%3E*This%20is%20typically%20implemented%20by%20converting%20the%20internal%20address%20of%20the%20object%20into%20an%20integer%0A%3E%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E9%BB%98%E8%AE%A4%E5%AE%9E%E7%8E%B0%E6%98%AF%E5%B0%86%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E9%83%A8%E5%9C%B0%E5%9D%80%E8%BD%AC%E5%8C%96%E6%88%90%E6%95%B4%E6%95%B0*%0A%0A%0A%23%23%20Collections%0A%20%0A%20%23%23%23%20Algorithms%20Params%0A%20%3EBINARYSEARCH_THRESHOLD%C2%A0%C2%A0%20%3D%205000%0A%20REVERSE_THRESHOLD%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%20%3D%C2%A0%C2%A0%2018%0A%20SHUFFLE_THRESHOLD%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%20%3D%C2%A0%C2%A0%C2%A0%205%0A%20FILL_THRESHOLD%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%20%3D%C2%A0%C2%A0%2025%0A%20ROTATE_THRESHOLD%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%20%3D%C2%A0%20100%0A%20COPY_THRESHOLD%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%C2%A0%20%3D%C2%A0%C2%A0%2010%0A%20REPLACEALL_THRESHOLD%C2%A0%C2%A0%C2%A0%C2%A0%20%3D%C2%A0%C2%A0%2011%0A%20INDEXOFSUBLIST_THRESHOLD%20%3D%C2%A0%C2%A0%2035%3B%0A%20%0A%20%23%23%23%20Collections.sort(List)%0A%20%201.%20%E6%A0%B9%E6%8D%AE%E7%89%B9%E5%AE%9A%E7%9A%84list%E4%B8%AD%E5%AF%B9%E8%B1%A1%E7%9A%84comparable%E6%8E%A5%E5%8F%A3%EF%BC%8C%E5%AF%B9list%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F%E3%80%82list%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E9%83%BD%E9%9C%80%E8%A6%81%E5%AE%9E%E7%8E%B0comparable%E8%BF%99%E4%B8%AA%E6%8E%A5%E5%8F%A3%EF%BC%8C%E8%80%8C%E4%B8%94%E5%88%97%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0%E9%83%BD%E9%9C%80%E8%A6%81%E5%8F%AF%E4%BB%A5%E4%BA%92%E7%9B%B8%E6%AF%94%E8%BE%83%EF%BC%88code%20e1.compareTo(e2)%EF%BC%89%EF%BC%8C%E4%B8%8D%E8%83%BD%E5%9B%A0%E4%B8%BAcompareTo%E6%96%B9%E6%B3%95%EF%BC%8C%E6%8A%9B%E5%87%BA%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%BC%82%E5%B8%B8%EF%BC%88C%20lassCastException%EF%BC%89%E3%80%82%0A%20%20%202.%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E5%BA%94%E5%BD%93%E4%BF%9D%E8%AF%81%E7%A8%B3%E5%AE%9A%E6%80%A7%EF%BC%9A%E7%9B%B8%E7%AD%89%E7%9A%84%E5%85%83%E7%B4%A0%E4%B8%8D%E8%83%BD%E5%9C%A8%E6%8E%92%E5%BA%8F%E4%B8%AD%E4%BA%A4%E6%8D%A2%E4%BD%8D%E7%BD%AE%E3%80%82%0A%20%20%203.%20%E8%BF%99%E4%B8%AA%E6%95%B0%E7%BB%84%E4%B8%80%E5%AE%9A%E8%A6%81%E6%98%AF%E5%8F%AF%E4%BF%AE%E6%94%B9%E7%9A%84%EF%BC%8C%E4%BD%86%E4%B8%8D%E5%BA%94%E8%AF%A5%E6%98%AF%E5%8F%AF%E5%8F%98%E7%9A%84%E3%80%82%0A%20%20%20%204.%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E4%B8%8Elist.sort%E8%BF%99%E4%B8%AA%E4%BD%BF%E7%94%A8%E7%89%B9%E5%AE%9A%E6%95%B0%E7%BB%84%E4%B8%94%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E6%AF%94%E8%BE%83%E5%99%A8%E6%96%B9%E6%B3%95%E4%B8%8D%E5%90%8C%E3%80%82%0A%20%0A%20%3E%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8%EF%BC%9A%0A%20%3E1.%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%BC%82%E5%B8%B8%EF%BC%9A%E5%A6%82%E6%9E%9Clist%E4%B8%AD%E5%8C%85%E5%90%AB%E6%97%A0%E6%B3%95%E6%AF%94%E8%BE%83%E5%AF%B9%E8%B1%A1%E6%97%B6%E6%8A%9B%E5%87%BA%E3%80%82%0A%20%3E2.%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E6%93%8D%E4%BD%9C%E5%BC%82%E5%B8%B8%EF%BC%9A**%E5%A6%82%E6%9E%9Clist%E7%9A%84list%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%88iterator%EF%BC%89%E4%B8%8D%E6%94%AF%E6%8C%81set%E6%96%B9%E6%B3%95**%E6%97%B6%E6%8A%9B%E5%87%BA%E3%80%82%0A%20%3E3.%E9%9D%9E%E6%B3%95%E5%8F%82%E6%95%B0%E5%BC%82%E5%B8%B8%EF%BC%9A%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89%E5%A6%82%E6%9E%9C%E5%AE%9E%E7%8E%B0%E7%B1%BB%E6%A3%80%E6%B5%8B%E5%88%B0list%E5%85%83%E7%B4%A0%E7%9A%84%E8%87%AA%E7%84%B6%E6%8E%92%E5%BA%8F%E8%BF%9D%E5%8F%8D%E4%BA%86comparable%E7%9A%84%E8%A7%84%E5%AE%9A%E5%88%99%E4%BC%9A%E6%8A%9B%E5%87%BA%E3%80%82%0A%0A%60%60%60%0A%E6%AF%94%E8%BE%83%E8%A7%84%E5%AE%9A%EF%BC%9A%0A1%EF%BC%89%20x%EF%BC%8Cy%20%E7%9A%84%E6%AF%94%E8%BE%83%E7%BB%93%E6%9E%9C%E5%92%8C%20y%EF%BC%8Cx%20%E7%9A%84%E6%AF%94%E8%BE%83%E7%BB%93%E6%9E%9C%E7%9B%B8%E5%8F%8D%E3%80%82(%E8%87%AA%E5%8F%8D%E6%80%A7)%0A2%EF%BC%89%20x%3Ey%EF%BC%8Cy%3Ez%EF%BC%8C%E5%88%99%20x%3Ez%E3%80%82%EF%BC%88%E4%BC%A0%E9%80%92%E6%80%A7%EF%BC%89%0A3%EF%BC%89%20x%3Dy%EF%BC%8C%E5%88%99%20x%EF%BC%8Cz%20%E6%AF%94%E8%BE%83%E7%BB%93%E6%9E%9C%E5%92%8C%20y%EF%BC%8Cz%20%E6%AF%94%E8%BE%83%E7%BB%93%E6%9E%9C%E7%9B%B8%E5%90%8C%E3%80%82%EF%BC%88%E5%90%8C%E4%B8%80%E6%80%A7%EF%BC%89*%0A%60%60%60%20%0A%0A%23%23%23%20Collections.sort(List%2C(optionoal)Comparator)%0A%E8%AF%A6%E7%BB%86%E5%90%8C%E4%B8%8A%EF%BC%8C%E4%BD%86%E6%98%AF%E6%98%AF%E4%BD%BF%E7%94%A8%E8%BE%93%E5%85%A5%E7%9A%84%E6%AF%94%E8%BE%83%E5%99%A8%E5%AF%B9%E6%8C%87%E5%AE%9A%E7%9A%84list%E8%BF%9B%E8%A1%8C%E6%AF%94%E8%BE%83%0A%0A%0A%23%23%23%20binarySearch(list%2Ckey)%0A1.%E4%BD%BF%E7%94%A8%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%8C%E5%9C%A8list%E4%B8%AD%E6%9F%A5%E6%89%BE%E6%9D%A1%E4%BB%B6%E5%AF%B9%E5%BA%94%E7%9A%84%E5%AF%B9%E8%B1%A1%E3%80%82%0A2.**list%E5%BF%85%E9%A1%BB%E6%98%AF%E6%8C%89%E7%85%A7%E6%AF%94%E8%BE%83%E5%99%A8%EF%BC%8C%E5%8D%87%E5%BA%8F%E6%8E%92%E5%BA%8F%E5%A5%BD%E7%9A%84%E3%80%82%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E6%8E%92%E5%BA%8F%E5%A5%BD%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%97%A0%E6%B3%95%E9%A2%84%E7%9F%A5%E3%80%82%E5%A6%82%E6%9E%9C%E6%A0%B9%E6%8D%AEkey%E8%BF%9B%E8%A1%8C%E6%AF%94%E8%BE%83%E6%9C%89%E5%A4%9A%E4%B8%AA%E7%AC%A6%E5%90%88%E7%BB%93%E6%9E%9C%E7%9A%84%E5%80%BC%EF%BC%8C%E9%82%A3%E4%B9%88%E6%97%A0%E6%B3%95%E5%BE%97%E7%9F%A5%E5%93%AA%E4%B8%AA%E7%BB%93%E6%9E%9C%E4%BC%9A%E8%A2%AB%E8%BF%94%E5%9B%9E%E3%80%82**%0A3.%E8%AF%A5%E6%96%B9%E6%B3%95%E5%9C%A8%E5%AE%9E%E7%8E%B0%E4%BA%86%E9%9A%8F%E6%9C%BA%E8%8E%B7%E5%8F%96%EF%BC%88random%20access%EF%BC%8CIMPL%3ARandomAccess%EF%BC%89%E7%9A%84list%E4%B8%8A%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E4%B8%BAlog%EF%BC%88n%EF%BC%89%E3%80%82%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E5%AE%9E%E7%8E%B0%E8%AF%A5%E6%8E%A5%E5%8F%A3%E4%B8%94list%E8%BE%83%E5%A4%A7%EF%BC%8C%E8%AF%A5%E6%96%B9%E6%B3%95%E4%BC%9A%E4%BD%BF%E7%94%A8%E5%9F%BA%E4%BA%8E%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%EF%BC%8C%E5%85%B6%E5%AE%9E%E7%8E%B0%E4%B8%BAo(n)%E7%9A%84%E9%81%8D%E5%8E%86%2Bo(logn)%E7%9A%84%E5%85%83%E7%B4%A0%E6%AF%94%E8%BE%83%E3%80%82%0A4.%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%BA%E6%9F%A5%E6%89%BEkey%E7%9A%84%E7%B4%A2%E5%BC%95%EF%BC%88index%EF%BC%89%E5%80%BC%EF%BC%8C%E5%89%8D%E6%8F%90%E6%98%AFkey%E5%9C%A8list%E4%B8%AD%EF%BC%8C%E5%90%A6%E5%88%99%E4%BC%9A%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AAkey%E5%8F%AF%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE%EF%BC%88insertion%20point%EF%BC%89%EF%BC%8C**%E5%8D%B3%E6%8C%89%E7%85%A7%E5%8D%87%E5%BA%8F%E6%8E%92%E5%BA%8F%EF%BC%8Ckey%E8%AF%A5%E6%8F%92%E5%85%A5%E7%9A%84%E4%BD%8D%E7%BD%AE%EF%BC%8C%E8%BF%99%E4%B8%AA%E4%BD%8D%E7%BD%AE%E5%8E%9F%E6%9D%A5%E7%9A%84%E5%80%BC%E8%A6%81%E4%B9%88%E6%98%AF%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AF%94key%E5%A4%A7%E7%9A%84%E5%80%BC%EF%BC%8C%E8%A6%81%E4%B9%88%E6%98%AF%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E4%BD%8D%E7%9A%84%E5%90%8E%E4%B8%80%E4%B8%AA%E3%80%82**%E6%B3%A8%E6%84%8F%EF%BC%8C%E5%BD%93%E4%B8%94%E4%BB%85%E5%BD%93key%E5%87%BA%E7%8E%B0%E5%9C%A8%E5%88%97%E8%A1%A8%E4%B8%AD%E5%90%8E%EF%BC%8C%E8%BF%94%E5%9B%9E%E5%80%BC%E6%89%8D%E4%BF%9D%E8%AF%81%3E%3D0%0A5.%E5%BC%82%E5%B8%B8%EF%BC%9A%0A%3E%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%BC%82%E5%B8%B8%EF%BC%88ClassCastException%EF%BC%89%EF%BC%9A%E5%BD%93%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0%E6%97%A0%E6%B3%95%E7%9B%B8%E4%BA%92%E6%AF%94%E8%BE%83%EF%BC%8C%E6%88%96%E8%80%85key%E5%92%8Clist%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0%E6%97%A0%E6%B3%95%E5%85%A8%E9%83%A8%E7%9B%B8%E4%BA%92%E6%AF%94%E8%BE%83%EF%BC%88%E6%AF%94%E8%BE%83%E5%88%B0%E4%BA%86%E6%89%8D%E4%BC%9A%E6%8A%9B%E5%87%BA%EF%BC%89%E3%80%82%0A%0A6.%E7%9B%B8%E5%85%B3param%EF%BC%9ABINARYSEARCH_THRESHOLD%C2%A0%C2%A0%20%3D%205000%E3%80%82%E5%A6%82%E6%9E%9C%E5%A4%A7%E4%BA%8E%E8%AF%A5%E5%80%BC%E4%B8%94list%E6%9C%AA%E5%AE%9E%E7%8E%B0RandomAccess%EF%BC%8C%E5%88%99%E4%BD%BF%E7%94%A8%E5%9F%BA%E4%BA%8E%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%88iteratorBinarySearch%EF%BC%89%3B%E5%85%B6%E4%BD%99%E6%83%85%E5%86%B5%E5%88%99%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%88indexedBinarySearch%EF%BC%89%E3%80%82%0A%20%0A%207.%20%23%23%23%23%20%E7%B4%A2%E5%BC%95%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BEindexedBinarySearch%EF%BC%88%EF%BC%89%20%EF%BC%9A%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8list.get()%2C%E5%AE%9E%E7%8E%B0%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E4%B8%AD%E5%85%B3%E9%94%AE%E8%8A%82%E7%82%B9%E7%9A%84%E5%85%83%E7%B4%A0%E3%80%82%0A%208.%20%23%23%23%23%20%0A%0A%0A%0A%0A%23%20%E7%BA%BF%E7%A8%8B%0A%23%23%20static%E9%81%87%E5%88%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%0A%3E1.%E7%B1%BB%E4%B8%AD%E7%9A%84static%E6%96%B9%E6%B3%95%E6%98%AF%E6%B2%A1%E6%9C%89%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%A1%BE%E8%99%91%E7%9A%84%EF%BC%8C%E5%9C%A8%E6%AF%8F%E6%AC%A1%E8%B0%83%E7%94%A8%E6%97%B6%E9%83%BD%E4%BC%9A%E6%96%B0%E5%BB%BA%E4%B8%80%E4%BB%BD%E5%89%AF%E6%9C%AC%E6%9D%A5%E8%B0%83%E7%94%A8%EF%BC%8C%E8%80%8C%E9%9D%9E%E5%AF%B9%E6%8C%87%E5%AE%9A%E7%9A%84%E5%86%85%E5%AD%98%E5%9C%B0%E5%9D%80%E8%BF%9B%E8%A1%8C%E8%B0%83%E7%94%A8%E3%80%82%0A%0A%0A%0A%0A%0A%20%20</center></span>
+</div></body></html> 

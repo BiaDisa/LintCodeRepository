@@ -1,0 +1,69 @@
+<html>
+<head>
+  <title>bug及解决</title>
+  <basefont face="微软雅黑" size="2" />
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="exporter-version" content="YXBJ Windows/600753 (zh-CN, DDL); Windows/10.0.0 (Win64);"/>
+  <meta name="content-class" content="yinxiang.markdown"/>
+  <style>
+    body, td {
+      font-family: 微软雅黑;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<a name="785"/>
+<h1>bug及解决</h1>
+<div>
+<table bgcolor="#D4DDE5" border="0">
+<tr><td><b>创建时间：</b></td><td><i>2019/7/30 14:09</i></td></tr>
+<tr><td><b>更新时间：</b></td><td><i>2019/8/20 9:51</i></td></tr>
+</table>
+</div>
+<br/>
+
+<div><span><div style="font-size: 14px; margin: 0; padding: 0; width: 100%;"><h1 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 41px; border-bottom: 3px double #999; color: #000; margin-top: 14px;">bug及解决</h1>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">旨在记录7.30以及以后遇到的bug及解决方法指南</p>
+<blockquote style="line-height: 160%; box-sizing: content-box; margin: 15px 0; border-left: 4px solid #ddd; padding: 0 15px; color: #777;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333; margin-top: 0; margin-bottom: 0;">1.sit数据源能够获取，但在灰度上报错，显示数据源无法获取</p>
+</blockquote>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;"><img src="bug及解决_files/EFA5CDE4-9EEF-4e34-9479-C47CA4AFC87C.png" type="image/png" data-filename="EFA5CDE4-9EEF-4e34-9479-C47CA4AFC87C.png"/><br/>
+解决方案：<br/>
+1.拉大多线程运行时一次性运行的数量，旨在减少获取数据源的次数<br/>
+<strong style="line-height: 160%; box-sizing: content-box; font-weight: 700;">2.在复合类中不加入针对数据源的注解，在调用mapper时，将调用的mapper封装在对应的Service中来调用</strong></p>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">FSP复杂类型转换错误</h2>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;"></p>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">countMap =  JsonUtils.toBeanTypeRef(JsonUtils.toString(response.getData()), new  TypeReference&lt;List&lt;HashMap&lt;String,String&gt;&gt;&gt;() {});    
+</code></pre>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">使用tpyeReference+toBeanTypeRef,可以解决</p>
+<pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">eg:greatmart-memberHelper,found for:toBeanTypeRef  
+</code></pre>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">MyBatis</h2>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">1.如果指定返回类型为Map，那么返回的一定是List，每一个结果行都会被包装成一个  map，同时map的key为列名，value为列名对应的值</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">2.如果使用@param（）指定参数后，在mapper文件中便不需要指定parameterType，否则会报错</p>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">数据库</h2>
+<ol style="line-height: 160%; box-sizing: content-box; display: block; padding-left: 30px; margin: 6px 0 10px; color: #333; list-style-type: decimal;">
+<li style="line-height: 160%; box-sizing: content-box;"><img src="bug及解决_files/Image.png" type="image/png" data-filename="Image.png"/></li>
+</ol>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">该加事务的时候一定要加，否则可能不符合预期，可能在sit上也不一定能重现出来。</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">2.TimeStamp数据库中排序问题如果几个TimeStamp相同，那么次序并不会统一</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">3.连表查询时，应是小表left join 大表，效率会快很多</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">4.useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;<br/>
+keyColumn=&quot;id&quot; 在mapper中添加上述参数，会将主键原本为空的对象，在通过SQL写入数据库后，在mapper中就将对象的主键设置为与数据库相同的值（不需要除了配置外其他的代码）</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">5.在aliyun的DML中，表字段的增加是不能带库名的，否则会无效。每次申请执行DML后都需要自己check一下是否确实执行了</p>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">list复制问题</h2>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">1.如果是使用add和get方法复制，那么其实被复制和赋值的对象都指向内存中同一个对象，一旦有修改所有指针都会受影响</p>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">2.Array.asList()生成的list，容量是固定的，无法修改容量大小，无法使用add与delete等方法</p>
+<h2 style="line-height: 160%; box-sizing: content-box; font-weight: 700; font-size: 34px; border-bottom: 1px solid #dbdbdb; color: #333;">java相关</h2>
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">1.有时三元运算符并不会准确短路不该有的逻辑，使用if-else判断会起到最准确的效果</p>
+<ol start="2" style="line-height: 160%; box-sizing: content-box; display: block; padding-left: 30px; margin: 6px 0 10px; color: #333; list-style-type: decimal;">
+<li style="line-height: 160%; box-sizing: content-box;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">compeletedFuture可以显式得知异步任务的运算结果，但是不能直接使用Executors的线程池，与list进行管理。可以使用CompletionService和ExecutorCompletionService</p>
+</li>
+<li style="line-height: 160%; box-sizing: content-box;">
+<p style="line-height: 160%; box-sizing: content-box; margin: 10px 0; color: #333;">参数明明加值了，服务器却没有接收到传的值，怎么办？  - **在参数类型前需要加@Json注解才会收到对应的参数  **</p>
+</li>
+</ol>
+</div><center style="display:none !important;visibility:collapse !important;height:0 !important;white-space:nowrap;width:100%;overflow:hidden">%23%20bug%E5%8F%8A%E8%A7%A3%E5%86%B3%0A%E6%97%A8%E5%9C%A8%E8%AE%B0%E5%BD%957.30%E4%BB%A5%E5%8F%8A%E4%BB%A5%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84bug%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E6%8C%87%E5%8D%97%0A%0A%0A%3E%201.sit%E6%95%B0%E6%8D%AE%E6%BA%90%E8%83%BD%E5%A4%9F%E8%8E%B7%E5%8F%96%EF%BC%8C%E4%BD%86%E5%9C%A8%E7%81%B0%E5%BA%A6%E4%B8%8A%E6%8A%A5%E9%94%99%EF%BC%8C%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE%E6%BA%90%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96%0A%3E%20%0A!%5B98c951b20e2558b3e77da3cfb62cfb4c.png%5D(en-resource%3A%2F%2Fdatabase%2F787%3A1)%0A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A%0A1.%E6%8B%89%E5%A4%A7%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%90%E8%A1%8C%E6%97%B6%E4%B8%80%E6%AC%A1%E6%80%A7%E8%BF%90%E8%A1%8C%E7%9A%84%E6%95%B0%E9%87%8F%EF%BC%8C%E6%97%A8%E5%9C%A8%E5%87%8F%E5%B0%91%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E6%AC%A1%E6%95%B0%0A**2.%E5%9C%A8%E5%A4%8D%E5%90%88%E7%B1%BB%E4%B8%AD%E4%B8%8D%E5%8A%A0%E5%85%A5%E9%92%88%E5%AF%B9%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E6%B3%A8%E8%A7%A3%EF%BC%8C%E5%9C%A8%E8%B0%83%E7%94%A8mapper%E6%97%B6%EF%BC%8C%E5%B0%86%E8%B0%83%E7%94%A8%E7%9A%84mapper%E5%B0%81%E8%A3%85%E5%9C%A8%E5%AF%B9%E5%BA%94%E7%9A%84Service%E4%B8%AD%E6%9D%A5%E8%B0%83%E7%94%A8**%0A%0A%0A%0A%23%23%20FSP%E5%A4%8D%E6%9D%82%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E9%94%99%E8%AF%AF%C2%A0%0A%C2%A0%20%0A~~~%0AcountMap%20%3D%C2%A0%20JsonUtils.toBeanTypeRef(JsonUtils.toString(response.getData())%2C%20new%C2%A0%20TypeReference%3CList%3CHashMap%3CString%2CString%3E%3E%3E()%20%7B%7D)%3B%C2%A0%20%C2%A0%20%0A~~~%0A%E4%BD%BF%E7%94%A8tpyeReference%2BtoBeanTypeRef%2C%E5%8F%AF%E4%BB%A5%E8%A7%A3%E5%86%B3%C2%A0%20%C2%A0%20%C2%A0%0A%60%60%60%0Aeg%3Agreatmart-memberHelper%2Cfound%20for%3AtoBeanTypeRef%C2%A0%20%0A%60%60%60%0A%0A%23%23%20MyBatis%C2%A0%20%0A%0A1.%E5%A6%82%E6%9E%9C%E6%8C%87%E5%AE%9A%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B%E4%B8%BAMap%EF%BC%8C%E9%82%A3%E4%B9%88%E8%BF%94%E5%9B%9E%E7%9A%84%E4%B8%80%E5%AE%9A%E6%98%AFList%EF%BC%8C%E6%AF%8F%E4%B8%80%E4%B8%AA%E7%BB%93%E6%9E%9C%E8%A1%8C%E9%83%BD%E4%BC%9A%E8%A2%AB%E5%8C%85%E8%A3%85%E6%88%90%E4%B8%80%E4%B8%AA%C2%A0%20map%EF%BC%8C%E5%90%8C%E6%97%B6map%E7%9A%84key%E4%B8%BA%E5%88%97%E5%90%8D%EF%BC%8Cvalue%E4%B8%BA%E5%88%97%E5%90%8D%E5%AF%B9%E5%BA%94%E7%9A%84%E5%80%BC%C2%A0%0A%0A2.%E5%A6%82%E6%9E%9C%E4%BD%BF%E7%94%A8%40param%EF%BC%88%EF%BC%89%E6%8C%87%E5%AE%9A%E5%8F%82%E6%95%B0%E5%90%8E%EF%BC%8C%E5%9C%A8mapper%E6%96%87%E4%BB%B6%E4%B8%AD%E4%BE%BF%E4%B8%8D%E9%9C%80%E8%A6%81%E6%8C%87%E5%AE%9AparameterType%EF%BC%8C%E5%90%A6%E5%88%99%E4%BC%9A%E6%8A%A5%E9%94%99%0A%0A%0A%0A%23%23%20%E6%95%B0%E6%8D%AE%E5%BA%93%0A1.%20!%5B18a9c83a1775af43d0d9b82a03bcd602.png%5D(en-resource%3A%2F%2Fdatabase%2F1807%3A1)%0A%0A%E8%AF%A5%E5%8A%A0%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%97%B6%E5%80%99%E4%B8%80%E5%AE%9A%E8%A6%81%E5%8A%A0%EF%BC%8C%E5%90%A6%E5%88%99%E5%8F%AF%E8%83%BD%E4%B8%8D%E7%AC%A6%E5%90%88%E9%A2%84%E6%9C%9F%EF%BC%8C%E5%8F%AF%E8%83%BD%E5%9C%A8sit%E4%B8%8A%E4%B9%9F%E4%B8%8D%E4%B8%80%E5%AE%9A%E8%83%BD%E9%87%8D%E7%8E%B0%E5%87%BA%E6%9D%A5%E3%80%82%0A%0A%0A2.TimeStamp%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98%E5%A6%82%E6%9E%9C%E5%87%A0%E4%B8%AATimeStamp%E7%9B%B8%E5%90%8C%EF%BC%8C%E9%82%A3%E4%B9%88%E6%AC%A1%E5%BA%8F%E5%B9%B6%E4%B8%8D%E4%BC%9A%E7%BB%9F%E4%B8%80%0A%0A3.%E8%BF%9E%E8%A1%A8%E6%9F%A5%E8%AF%A2%E6%97%B6%EF%BC%8C%E5%BA%94%E6%98%AF%E5%B0%8F%E8%A1%A8left%20join%20%E5%A4%A7%E8%A1%A8%EF%BC%8C%E6%95%88%E7%8E%87%E4%BC%9A%E5%BF%AB%E5%BE%88%E5%A4%9A%0A%0A4.useGeneratedKeys%3D%22true%22%20keyProperty%3D%22id%22%0A%20%20%20%20%20%20%20%20%20%20keyColumn%3D%22id%22%20%E5%9C%A8mapper%E4%B8%AD%E6%B7%BB%E5%8A%A0%E4%B8%8A%E8%BF%B0%E5%8F%82%E6%95%B0%EF%BC%8C%E4%BC%9A%E5%B0%86%E4%B8%BB%E9%94%AE%E5%8E%9F%E6%9C%AC%E4%B8%BA%E7%A9%BA%E7%9A%84%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%9C%A8%E9%80%9A%E8%BF%87SQL%E5%86%99%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8E%EF%BC%8C%E5%9C%A8mapper%E4%B8%AD%E5%B0%B1%E5%B0%86%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B8%BB%E9%94%AE%E8%AE%BE%E7%BD%AE%E4%B8%BA%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%90%8C%E7%9A%84%E5%80%BC%EF%BC%88%E4%B8%8D%E9%9C%80%E8%A6%81%E9%99%A4%E4%BA%86%E9%85%8D%E7%BD%AE%E5%A4%96%E5%85%B6%E4%BB%96%E7%9A%84%E4%BB%A3%E7%A0%81%EF%BC%89%0A%20%20%20%20%20%20%20%20%20%20%0A%205.%E5%9C%A8aliyun%E7%9A%84DML%E4%B8%AD%EF%BC%8C%E8%A1%A8%E5%AD%97%E6%AE%B5%E7%9A%84%E5%A2%9E%E5%8A%A0%E6%98%AF%E4%B8%8D%E8%83%BD%E5%B8%A6%E5%BA%93%E5%90%8D%E7%9A%84%EF%BC%8C%E5%90%A6%E5%88%99%E4%BC%9A%E6%97%A0%E6%95%88%E3%80%82%E6%AF%8F%E6%AC%A1%E7%94%B3%E8%AF%B7%E6%89%A7%E8%A1%8CDML%E5%90%8E%E9%83%BD%E9%9C%80%E8%A6%81%E8%87%AA%E5%B7%B1check%E4%B8%80%E4%B8%8B%E6%98%AF%E5%90%A6%E7%A1%AE%E5%AE%9E%E6%89%A7%E8%A1%8C%E4%BA%86%0A%0A%0A%0A%23%23%20list%E5%A4%8D%E5%88%B6%E9%97%AE%E9%A2%98%0A%0A%201.%E5%A6%82%E6%9E%9C%E6%98%AF%E4%BD%BF%E7%94%A8add%E5%92%8Cget%E6%96%B9%E6%B3%95%E5%A4%8D%E5%88%B6%EF%BC%8C%E9%82%A3%E4%B9%88%E5%85%B6%E5%AE%9E%E8%A2%AB%E5%A4%8D%E5%88%B6%E5%92%8C%E8%B5%8B%E5%80%BC%E7%9A%84%E5%AF%B9%E8%B1%A1%E9%83%BD%E6%8C%87%E5%90%91%E5%86%85%E5%AD%98%E4%B8%AD%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%EF%BC%8C%E4%B8%80%E6%97%A6%E6%9C%89%E4%BF%AE%E6%94%B9%E6%89%80%E6%9C%89%E6%8C%87%E9%92%88%E9%83%BD%E4%BC%9A%E5%8F%97%E5%BD%B1%E5%93%8D%0A%0A%202.Array.asList()%E7%94%9F%E6%88%90%E7%9A%84list%EF%BC%8C%E5%AE%B9%E9%87%8F%E6%98%AF%E5%9B%BA%E5%AE%9A%E7%9A%84%EF%BC%8C%E6%97%A0%E6%B3%95%E4%BF%AE%E6%94%B9%E5%AE%B9%E9%87%8F%E5%A4%A7%E5%B0%8F%EF%BC%8C%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8add%E4%B8%8Edelete%E7%AD%89%E6%96%B9%E6%B3%95%0A%0A%0A%20%23%23%20java%E7%9B%B8%E5%85%B3%0A%0A%0A1.%E6%9C%89%E6%97%B6%E4%B8%89%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6%E5%B9%B6%E4%B8%8D%E4%BC%9A%E5%87%86%E7%A1%AE%E7%9F%AD%E8%B7%AF%E4%B8%8D%E8%AF%A5%E6%9C%89%E7%9A%84%E9%80%BB%E8%BE%91%EF%BC%8C%E4%BD%BF%E7%94%A8if-else%E5%88%A4%E6%96%AD%E4%BC%9A%E8%B5%B7%E5%88%B0%E6%9C%80%E5%87%86%E7%A1%AE%E7%9A%84%E6%95%88%E6%9E%9C%C2%A0%C2%A0%0A%0A2.%20compeletedFuture%E5%8F%AF%E4%BB%A5%E6%98%BE%E5%BC%8F%E5%BE%97%E7%9F%A5%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%BF%90%E7%AE%97%E7%BB%93%E6%9E%9C%EF%BC%8C%E4%BD%86%E6%98%AF%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8Executors%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%8C%E4%B8%8Elist%E8%BF%9B%E8%A1%8C%E7%AE%A1%E7%90%86%E3%80%82%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8CompletionService%E5%92%8CExecutorCompletionService%20%0A%0A3.%20%20%E5%8F%82%E6%95%B0%E6%98%8E%E6%98%8E%E5%8A%A0%E5%80%BC%E4%BA%86%EF%BC%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8D%B4%E6%B2%A1%E6%9C%89%E6%8E%A5%E6%94%B6%E5%88%B0%E4%BC%A0%E7%9A%84%E5%80%BC%EF%BC%8C%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F%C2%A0%20-%20**%E5%9C%A8%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B%E5%89%8D%E9%9C%80%E8%A6%81%E5%8A%A0%40Json%E6%B3%A8%E8%A7%A3%E6%89%8D%E4%BC%9A%E6%94%B6%E5%88%B0%E5%AF%B9%E5%BA%94%E7%9A%84%E5%8F%82%E6%95%B0%C2%A0%20**%0A%0A%0A%0A</center></span>
+</div></body></html> 
