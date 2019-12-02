@@ -1,8 +1,7 @@
 package test.first;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.lang.reflect.Modifier;
+
 import static java.util.Arrays.binarySearch;
 
 public class Solution2 {
@@ -947,6 +946,62 @@ public class Solution2 {
                 return 1;
         }
         return 0;
+    }
+    //------------
+    /**
+     * 中文English
+     * 给定n个不同的正整数，整数k（1<= k <= n）以及一个目标数字。　　　　
+     *
+     * 在这n个数里面找出K个数，使得这K个数的和等于目标数字，你需要找出所有满足要求的方案。
+     */
+
+
+    public List<List<Integer>> kSumII(int[] A, int k, int target) {
+        Arrays.sort(A);
+        List<List<Integer>> result = new ArrayList<>();
+        int scale = A.length;
+        if(scale == k){
+            if(arraySum(A) == target)
+                result.add(convertArrToList(A));
+            return result;
+        }
+        Stack<Integer> valStk = new Stack<>();
+        Stack<Integer> indexStk = new Stack<>();
+        for(int i=0;i<=scale-1-k;i++){
+            valStk.push(A[i]);
+            indexStk.push(i);
+            int count = 1;
+            int total = A[i];
+            int tarIndex = i;
+            while(count<k&&tarIndex<scale){
+                tarIndex = i+count;
+                valStk.push(A[tarIndex]);
+                indexStk.push(tarIndex);
+                count++;
+                total+=A[i+count];
+                if(count == k){
+                    if(total == target){
+                        result.add(valStk.subList(0,count));
+                    }
+                    for(int m=0;!indexStk.isEmpty()&&indexStk.peek()>=scale-m;m++) {
+                        total-=valStk.pop();
+                        count--;
+                        indexStk.pop();
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public int arraySum(int[] A){
+        return Arrays.stream(A).sum();
+    }
+
+    public List<Integer> convertArrToList(int[] A){
+       List<Integer> tmp = new ArrayList<>();
+        Arrays.stream(A).forEach(tmp::add);
+        return tmp;
     }
 
     //----------

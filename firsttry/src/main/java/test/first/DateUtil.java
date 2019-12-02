@@ -18,6 +18,7 @@ import java.util.*;
  */
 public class DateUtil {
 
+
     /**
      * 1秒钟的毫秒数
      */
