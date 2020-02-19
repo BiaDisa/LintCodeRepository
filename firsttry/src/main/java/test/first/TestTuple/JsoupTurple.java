@@ -1,13 +1,12 @@
 package test.first.TestTuple;
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
-import sun.net.www.protocol.http.AuthCache;
+
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
-import static sun.awt.image.PixelConverter.Argb.instance;
 
 public class JsoupTurple {
 
